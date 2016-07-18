@@ -219,8 +219,8 @@ class TSlotBoxMaker(inkex.Effect):
     svg = self.document.getroot()
     
         # Get the attibutes:
-    widthDoc  = inkex.unittouu(svg.get('width'))
-    heightDoc = inkex.unittouu(svg.get('height'))
+    widthDoc  = self.unittouu(svg.get('width'))
+    heightDoc = self.unittouu(svg.get('height'))
 
         # Create a new layer.
     layer = inkex.etree.SubElement(svg, 'g')
@@ -232,20 +232,20 @@ class TSlotBoxMaker(inkex.Effect):
         # Get script's option values.
     unit=self.options.unit
     inside=self.options.inside
-    X = inkex.unittouu( str(self.options.length)  + unit )
-    Y = inkex.unittouu( str(self.options.width) + unit )
-    Z = inkex.unittouu( str(self.options.height)  + unit )
-    thickness = inkex.unittouu( str(self.options.thickness)  + unit )
-    nomTab = inkex.unittouu( str(self.options.tab) + unit )
+    X = self.unittouu( str(self.options.length)  + unit )
+    Y = self.unittouu( str(self.options.width) + unit )
+    Z = self.unittouu( str(self.options.height)  + unit )
+    thickness = self.unittouu( str(self.options.thickness)  + unit )
+    nomTab = self.unittouu( str(self.options.tab) + unit )
     equalTabs=self.options.equal
-    kerf = inkex.unittouu( str(self.options.kerf)  + unit )
-    clearance = inkex.unittouu( str(self.options.clearance)  + unit )
+    kerf = self.unittouu( str(self.options.kerf)  + unit )
+    clearance = self.unittouu( str(self.options.clearance)  + unit )
     layout=self.options.style
-    spacing = inkex.unittouu( str(self.options.spacing)  + unit )
-    screw_length = inkex.unittouu( str(self.options.screw_length)  + unit )
-    screw_diameter = inkex.unittouu( str(self.options.screw_diameter)  + unit )
-    nut_height = inkex.unittouu( str(self.options.nut_height)  + unit )
-    nut_diameter = inkex.unittouu( str(self.options.nut_diameter)  + unit )
+    spacing = self.unittouu( str(self.options.spacing)  + unit )
+    screw_length = self.unittouu( str(self.options.screw_length)  + unit )
+    screw_diameter = self.unittouu( str(self.options.screw_diameter)  + unit )
+    nut_height = self.unittouu( str(self.options.nut_height)  + unit )
+    nut_diameter = self.unittouu( str(self.options.nut_diameter)  + unit )
 
     if inside: # if inside dimension selected correct values to outside dimension
       X+=thickness*2
