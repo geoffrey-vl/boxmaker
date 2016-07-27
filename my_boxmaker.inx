@@ -4,47 +4,65 @@
   <id>eu.twot.render.my_boxmaker</id>
 
   <dependency type="executable" location="extensions">my_boxmaker.py</dependency>
+  <dependency type="executable" location="extensions">ink_helper.py</dependency>
   <dependency type="executable" location="extensions">simpletransform.py</dependency>
   <dependency type="executable" location="extensions">inkex.py</dependency>
+  <param name='active-tab' type="notebook">
 
-  <param name="unit" _gui-text="Unit" type="optiongroup" appearance="minimal">
-    <option value="mm">mm</option>
-    <option value="cm">cm</option>
-    <option value="in">in</option>
-  </param>
+    <page name="Global" _gui-text="Gloabal settings" >
 
-  <param name="inside" type="optiongroup" _gui-text="Box Dimensions">
-    <_option value="1">Inside</_option>
-    <_option value="0">Outside</_option>
-  </param>
+      <param name="unit" _gui-text="Unit" type="optiongroup" appearance="minimal">
+        <option value="mm">mm</option>
+        <option value="cm">cm</option>
+        <option value="in">in</option>
+      </param>
 
-  <param name="length" type="float" precision="3" min="0.0" max="10000.0" _gui-text="Length">30.0</param>
-  <param name="width" type="float" precision="3"  min="0.0" max="10000.0" _gui-text="Width">20.0</param>
-  <param name="depth" type="float" precision="3"  min="0.0" max="10000.0" _gui-text="Height">10.o</param>
-  <param name="tab" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Minimum/Prefered Tab Width">2.0</param> 
+      <param name="inside" type="optiongroup" _gui-text="Box Dimensions">
+        <_option value="1">Inside</_option>
+        <_option value="0">Outside</_option>
+      </param>
 
-  <param name="equal" type="optiongroup" _gui-text="Tab Width">
-    <_option value="0">Fixed</_option>
-    <_option value="1">Proportional</_option>
-  </param>
+      <param name="length" type="float" precision="3" min="0.0" max="10000.0" _gui-text="Length">30.0</param>
+      <param name="width" type="float" precision="3"  min="0.0" max="10000.0" _gui-text="Width">20.0</param>
+      <param name="depth" type="float" precision="3"  min="0.0" max="10000.0" _gui-text="Height">10.o</param>
+      <param name="tab_width" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Minimum/Prefered Tab Width">2.0</param> 
 
-  <param name="thickness" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Material Thickness">6.0</param>
-  <param name="kerf" type="float" precision="3"  min="0.0" max="10000.0" _gui-text="Kerf (cut width)">0.0</param>
-  <param name="clearance" type="float" precision="3"  min="0.0" max="10000.0" _gui-text="Clearance">0.05</param>
+      <param name="equal" type="optiongroup" _gui-text="Tab Width">
+        <_option value='Fixed'>Fixed</_option>
+        <_option value='Proportional'>Proportional</_option>
+      </param>
+
+      <param name="thickness" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Material Thickness">6.0</param>
+      <param name="kerf" type="float" precision="3"  min="0.0" max="10000.0" _gui-text="Kerf (cut width)">0.0</param>
+      <param name="clearance" type="float" precision="3"  min="0.0" max="10000.0" _gui-text="Clearance">0.05</param>
 	
-  <param name="style" _gui-text="Layout/Style" type="optiongroup" appearance="minimal">
-    <option value="1">Diagramatic</option>
-    <option value="2">3 piece</option>
-    <option value="3">Inline(compact)</option>
-    <option value="4">Diag Alternate Tabs</option>
-  </param>
+      <param name="style" _gui-text="Layout/Style" type="optiongroup" appearance="minimal">
+        <option value="1">Diagramatic</option>
+        <option value="2">3 piece</option>
+        <option value="3">Inline(compact)</option>
+        <option value="4">Diag Alternate Tabs</option>
+      </param>
 
-  <param name="spacing" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Space Between Parts">1.0</param> 
-  <param name="screw_length" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Screw Length">16</param> 
-  <param name="screw_diameter" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Screw Diameter">3</param> 
-  <param name="nut_height" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Nut Height">3</param> 
-  <param name="nut_diameter" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Nut Diameter">6</param> 
-  
+      <param name="spacing" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Space Between Parts">1.0</param> 
+      <param name="screw_length" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Screw Length">16</param> 
+      <param name="screw_diameter" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Screw Diameter">3</param> 
+      <param name="nut_height" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Nut Height">3</param> 
+      <param name="nut_diameter" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Nut Diameter">6</param> 
+    </page>
+    <page name="Front" _gui-text="Front" >
+
+    </page>
+    <page name="Back" _gui-text="Back" >Back</page>
+    <page name="Left side" _gui-text="Left Side" >Left side</page>
+
+    <page name="Right Side" _gui-text="Right Side" >Right side</page>
+
+    <page name="Top" _gui-text="Top" >Top</page>
+
+    <page name="Bottom" _gui-text="Bottom" >Bottom</page>
+
+
+  </param>      <!--name="tab"--> 
   <effect>
     <object-type>all</object-type>
     <effects-menu>
