@@ -7,6 +7,15 @@
   <dependency type="executable" location="extensions">ink_helper.py</dependency>
   <dependency type="executable" location="extensions">simpletransform.py</dependency>
   <dependency type="executable" location="extensions">inkex.py</dependency>
+  
+  <dependency type="executable" location="extensions">my_box.py</dependency>
+ 
+
+  <dependency type="executable" location="extensions">my_edge.py</dependency>
+
+  <dependency type="executable" location="extensions">my_panel.py</dependency>
+
+
   <param name='active-tab' type="notebook">
 
     <page name="Global" _gui-text="Gloabal settings" >
@@ -60,6 +69,17 @@
     <page name="Top" _gui-text="Top" >Top</page>
 
     <page name="Bottom" _gui-text="Bottom" >Bottom</page>
+
+    <page name="Debug" _gui-text="Debug" >Debug mode
+    
+      <param name="debug" type="optiongroup" _gui-text="Debug mode On/Off">
+        <_option value="1">On</_option>
+        <_option value="0">Off</_option>
+      </param>
+      <param name="draw_original" type="boolean" _gui-text="Draw original part">false</param>
+
+    
+    </page>
 
 
   </param>      <!--name="tab"--> 
