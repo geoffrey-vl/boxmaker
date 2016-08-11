@@ -3,7 +3,22 @@ from ink_helper import *
 
 
 import inkex 
-
+# jslee - shamelessly adapted from sample code on below Inkscape wiki page 2015-07-28
+# http://wiki.inkscape.org/wiki/index.php/Generating_objects_from_extensions
+def drawCircle(r, (cx, cy), my_dict):
+#    log("putting circle at (%d,%d)" % (cx,cy))
+    style = { 'stroke': '#000000', 'stroke-width': '1', 'fill': 'none' }
+    ell_attribs = {'style':simplestyle.formatStyle(style),
+        inkex.addNS('cx','sodipodi')        :str(cx),
+        inkex.addNS('cy','sodipodi')        :str(cy),
+        inkex.addNS('rx','sodipodi')        :str(r),
+        inkex.addNS('ry','sodipodi')        :str(r),
+        inkex.addNS('start','sodipodi')     :str(0),
+        inkex.addNS('end','sodipodi')       :str(2*math.pi),
+        inkex.addNS('open','sodipodi')      :'true', #all ellipse sectors we will draw are open
+        inkex.addNS('type','sodipodi')      :'arc',
+        'transform'                         :'' }
+    inkex.etree.SubElement(my_dict['parent'], inkex.addNS('path','svg'), ell_attribs )
 
 
 def drill(center, diameter, n_pt):
@@ -57,6 +72,7 @@ def t_slot(center, orient, my_dict ):
 
 def side((rx,ry),(sox,soy),(eox,eoy),tabVec,length,(dirx,diry),isTab,lS_up, my_dict):
     #       root startOffset endOffset tabVec length  direction  isTab
+    
     if my_dict['debug'] :
         inkex.errormsg(_('rx{} , '.format(  rx ),))
         inkex.errormsg(_('ry {} , '.format(  ry ) ))
@@ -74,7 +90,8 @@ def side((rx,ry),(sox,soy),(eox,eoy),tabVec,length,(dirx,diry),isTab,lS_up, my_d
     if not divs%2: divs-=1   # make divs odd
     divs=float(divs)
     tabs=(divs-1)/2          # tabs for side
-  
+    screw_r = my_dict['screw_diameter'] / 2.
+
     if my_dict['equalTabs']:
         gapWidth=tabWidth=length/divs
     else:
@@ -119,15 +136,20 @@ def side((rx,ry),(sox,soy),(eox,eoy),tabVec,length,(dirx,diry),isTab,lS_up, my_d
         inkex.errormsg('secondVec {} , '.format(  secondVec ))
 
 
-
+    s_h_flipflop = 0 
     for n in range(1,int(divs)):
         if n%2:
             Vx=Vx+(dirx*gapWidth+dirxN*firstVec+first*dirx)/2
             Vy=Vy+(diry*gapWidth+diryN*firstVec+first*diry)/2
             s+='L '+str(Vx)+','+str(-1*Vy)+' '
-
-            slot_path = t_slot((Vx,-1*Vy), lS_up , my_dict)
-            drawS(slot_path.drawXY(), my_dict['parent'])
+            if s_h_flipflop == 1:
+                slot_path = t_slot((Vx,-1*Vy), lS_up , my_dict)
+                drawS(slot_path.drawXY(), my_dict['parent'])
+                s_h_flipflop = 2
+            elif s_h_flipflop == 2 :
+                drawCircle( screw_r, (Vx , -1* Vy), my_dict )
+                s_h_flipflop = 1
+            else : s_h_flipflop = 1
 
             Vx=Vx+(dirx*gapWidth+dirxN*firstVec+first*dirx)/2
             Vy=Vy+(diry*gapWidth+diryN*firstVec+first*diry)/2
@@ -141,8 +163,15 @@ def side((rx,ry),(sox,soy),(eox,eoy),tabVec,length,(dirx,diry),isTab,lS_up, my_d
             Vy=Vy+(diry*tabWidth+diryN*firstVec)/2
             s+='L '+str(Vx)+','+str(-1*Vy)+' '
 
-            slot_path = t_slot((Vx,-1*Vy), lS_up , my_dict)
-            drawS(slot_path.drawXY(), my_dict['parent'])
+            if s_h_flipflop == 1:
+                slot_path = t_slot((Vx,-1*Vy), lS_up , my_dict)
+                drawS(slot_path.drawXY(), my_dict['parent'])
+                s_h_flipflop = 2
+            elif s_h_flipflop == 2 :
+                drawCircle( screw_r, (Vx , -1* Vy), my_dict )
+                s_h_flipflop = 1
+            else : s_h_flipflop = 1
+
 
             Vx=Vx+(dirx*tabWidth+dirxN*firstVec)/2
             Vy=Vy+(diry*tabWidth+diryN*firstVec)/2
