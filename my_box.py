@@ -73,7 +73,7 @@ class Box:
 
         self.front_panel = Panel( 'front_panel',  front_x,   front_y, (a,b,c,d),  length, width, my_dict)
 
-        if my_dict['debug'] : return
+        #if my_dict['debug'] : return
         
         self.back_panel = Panel(  'back_panel',   back_x,    back_y,  (a,b,c,d),  length, width, my_dict)
 
