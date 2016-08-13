@@ -71,20 +71,20 @@ class Box:
 
         (a,b,c,d) = 0,0,0,0
 
-        self.front_panel = Panel( 'front',  front_x,   front_y, (a,b,c,d),  length, width, my_dict)
+        self.front_panel = Panel( 'front_panel',  front_x,   front_y, (a,b,c,d),  length, width, my_dict)
 
         if my_dict['debug'] : return
         
-        self.back_panel = Panel(  'back',   back_x,    back_y,  (a,b,c,d),  length, width, my_dict)
+        self.back_panel = Panel(  'back_panel',   back_x,    back_y,  (a,b,c,d),  length, width, my_dict)
 
 
         (a,b,c,d) = 1,0,1,0
-        self.top_panel = Panel(   'top',    top_x,     top_y,   (a,b,c,d),  length, height, my_dict)
-        self.bottom_panel = Panel('bottom', bottom_x,  bottom_y,(a,b,c,d),  length, height, my_dict)
+        self.top_panel = Panel(   'top_panel',    top_x,     top_y,   (a,b,c,d),  length, height, my_dict)
+        self.bottom_panel = Panel('bottom_panel', bottom_x,  bottom_y,(a,b,c,d),  length, height, my_dict)
 
         (a,b,c,d) = 1,1,1,1
-        self.left_panel = Panel ( 'left',   left_x,    left_y,  (a,b,c,d),  height, width, my_dict)
-        self.right_panel =Panel(  'right',  right_x,   right_y, (a,b,c,d),  height, width, my_dict)
+        self.left_panel = Panel ( 'left_panel',   left_x,    left_y,  (a,b,c,d),  height, width, my_dict)
+        self.right_panel =Panel(  'right_panel',  right_x,   right_y, (a,b,c,d),  height, width, my_dict)
 
 
 #        inkex.errormsg('  right_x = {},  right_y = {},  width= {},  height = {} '.format(  right_x,

@@ -59,16 +59,89 @@
       <param name="nut_diameter" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Nut Diameter">6</param> 
     </page>
     <page name="Front" _gui-text="Front" >
+      <param name="front_panel_left_edge_nutslot" type="boolean" _gui-text="Left edge nut slots">true</param>
+      <param name="front_panel_bottom_edge_nutslot" type="boolean" _gui-text="Bottom edge nut slots">true</param>
+      <param name="front_panel_right_edge_nutslot" type="boolean" _gui-text="right edge nut slots">true</param>
+      <param name="front_panel_top_edge_nutslot" type="boolean" _gui-text="top edge nut slots">true</param>
+      <param name="front_panel_left_edge_screw_hole" type="boolean" _gui-text="Left edge screw holes">true</param>
+      <param name="front_panel_bottom_edge_screw_hole" type="boolean" _gui-text="Bottom edge screw holes">true</param>
+      <param name="front_panel_right_edge_screw_hole" type="boolean" _gui-text="right edge screw holes">true</param>
+      <param name="front_panel_top_edge_screw_hole" type="boolean" _gui-text="top edge screw holes">true</param>
 
     </page>
-    <page name="Back" _gui-text="Back" >Back</page>
-    <page name="Left side" _gui-text="Left Side" >Left side</page>
+    <page name="Back" _gui-text="Back" >Back
 
-    <page name="Right Side" _gui-text="Right Side" >Right side</page>
+      <param name="back_panel_left_edge_nutslot" type="boolean" _gui-text="Left edge nut slots">true</param>
+      <param name="back_panel_bottom_edge_nutslot" type="boolean" _gui-text="Bottom edge nut slots">true</param>
+      <param name="back_panel_right_edge_nutslot" type="boolean" _gui-text="right edge nut slots">true</param>
+      <param name="back_panel_top_edge_nutslot" type="boolean" _gui-text="top edge nut slots">true</param>
+      <param name="back_panel_left_edge_screw_hole" type="boolean" _gui-text="Left edge screw holes">true</param>
+      <param name="back_panel_bottom_edge_screw_hole" type="boolean" _gui-text="Bottom edge screw holes">true</param>
+      <param name="back_panel_right_edge_screw_hole" type="boolean" _gui-text="right edge screw holes">true</param>
+      <param name="back_panel_top_edge_screw_hole" type="boolean" _gui-text="top edge screw holes">true</param>
 
-    <page name="Top" _gui-text="Top" >Top</page>
+    
+    
+    
+    </page>
+    <page name="Left side" _gui-text="Left Side" >Left side
+    
+      <param name="left_panel_left_edge_nutslot" type="boolean" _gui-text="Left edge nut slots">true</param>
+      <param name="left_panel_bottom_edge_nutslot" type="boolean" _gui-text="Bottom edge nut slots">true</param>
+      <param name="left_panel_right_edge_nutslot" type="boolean" _gui-text="right edge nut slots">true</param>
+      <param name="left_panel_top_edge_nutslot" type="boolean" _gui-text="top edge nut slots">true</param>
+      <param name="left_panel_left_edge_screw_hole" type="boolean" _gui-text="Left edge screw holes">true</param>
+      <param name="left_panel_bottom_edge_screw_hole" type="boolean" _gui-text="Bottom edge screw holes">true</param>
+      <param name="left_panel_right_edge_screw_hole" type="boolean" _gui-text="right edge screw holes">true</param>
+      <param name="left_panel_top_edge_screw_hole" type="boolean" _gui-text="top edge screw holes">true</param>
 
-    <page name="Bottom" _gui-text="Bottom" >Bottom</page>
+    
+    
+    </page>
+
+    <page name="Right Side" _gui-text="Right Side" >Right side
+    
+      <param name="right_panel_left_edge_nutslot" type="boolean" _gui-text="Left edge nut slots">true</param>
+      <param name="right_panel_bottom_edge_nutslot" type="boolean" _gui-text="Bottom edge nut slots">true</param>
+      <param name="right_panel_right_edge_nutslot" type="boolean" _gui-text="right edge nut slots">true</param>
+      <param name="right_panel_top_edge_nutslot" type="boolean" _gui-text="top edge nut slots">true</param>
+      <param name="right_panel_left_edge_screw_hole" type="boolean" _gui-text="Left edge screw holes">true</param>
+      <param name="right_panel_bottom_edge_screw_hole" type="boolean" _gui-text="Bottom edge screw holes">true</param>
+      <param name="right_panel_right_edge_screw_hole" type="boolean" _gui-text="right edge screw holes">true</param>
+      <param name="right_panel_top_edge_screw_hole" type="boolean" _gui-text="top edge screw holes">true</param>
+
+    
+    
+    </page>
+
+    <page name="Top" _gui-text="Top" >Top
+    
+      <param name="top_panel_left_edge_nutslot" type="boolean" _gui-text="Left edge nut slots">true</param>
+      <param name="top_panel_bottom_edge_nutslot" type="boolean" _gui-text="Bottom edge nut slots">true</param>
+      <param name="top_panel_right_edge_nutslot" type="boolean" _gui-text="right edge nut slots">true</param>
+      <param name="top_panel_top_edge_nutslot" type="boolean" _gui-text="top edge nut slots">true</param>
+      <param name="top_panel_left_edge_screw_hole" type="boolean" _gui-text="Left edge screw holes">true</param>
+      <param name="top_panel_bottom_edge_screw_hole" type="boolean" _gui-text="Bottom edge screw holes">true</param>
+      <param name="top_panel_right_edge_screw_hole" type="boolean" _gui-text="right edge screw holes">true</param>
+      <param name="top_panel_top_edge_screw_hole" type="boolean" _gui-text="top edge screw holes">true</param>
+
+    
+    </page>
+
+    <page name="Bottom" _gui-text="Bottom" >Bottom
+    
+      <param name="bottom_panel_left_edge_nutslot" type="boolean" _gui-text="Left edge nut slots">true</param>
+      <param name="bottom_panel_bottom_edge_nutslot" type="boolean" _gui-text="Bottom edge nut slots">true</param>
+      <param name="bottom_panel_right_edge_nutslot" type="boolean" _gui-text="right edge nut slots">true</param>
+      <param name="bottom_panel_top_edge_nutslot" type="boolean" _gui-text="top edge nut slots">true</param>
+      <param name="bottom_panel_left_edge_screw_hole" type="boolean" _gui-text="Left edge screw holes">true</param>
+      <param name="bottom_panel_bottom_edge_screw_hole" type="boolean" _gui-text="Bottom edge screw holes">true</param>
+      <param name="bottom_panel_right_edge_screw_hole" type="boolean" _gui-text="right edge screw holes">true</param>
+      <param name="bottom_panel_top_edge_screw_hole" type="boolean" _gui-text="top edge screw holes">true</param>
+
+    
+    
+    </page>
 
     <page name="Debug" _gui-text="Debug" >Debug mode
     

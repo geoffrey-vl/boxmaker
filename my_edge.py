@@ -194,27 +194,27 @@ class Edge:
     '''
     an edge class to hold all information of an edge
     '''
-    def __init__(self, i, x , y, (sox,soy),(eox,eoy), isTab ,td, length , my_dict):
+    def __init__(self,name, i, x , y, (sox,soy),(eox,eoy), isTab ,td, length , my_dict):
         self.length = length
-
+        self.name = name
         if i == 'T':
-            self.name = 'top_edge'             
+            #top_edge           
             directionV2 = Vec2(-1 , 0) 
             S_up = Vec2(0,1)
             tab_direction = td
             
         elif i == 'R' :
-            self.name = 'right_edge' 
+            #right_edge 
             directionV2 = Vec2(0, 1)
             S_up = Vec2(-1,0)
             tab_direction = td
         elif i == 'B' :
-            self.name = 'bottom_edge' 
+            #bottom_edge' 
             directionV2 = Vec2(1, 0)
             S_up = Vec2(0,-1)
             tab_direction = td
         elif i == 'L' :
-            self.name = 'left_edge'             
+            #left_edge             
             directionV2 = Vec2(0, -1)
             S_up = Vec2(1,0)
             tab_direction = td

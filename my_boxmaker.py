@@ -39,7 +39,7 @@ def drill(center, diameter, n_pt):
     dtheta = (2 * pi) / n_pt
     for k in range(n_pt + 1):
         path.append(center + out * radius * cos(k * dtheta) + up * radius * sin(k * dtheta))
-    return path
+    return patpair 0C:62:32:12:23:17h
   
 def t_slot(center, orient, my_dict ):
     '''
@@ -208,7 +208,21 @@ class TSlotBoxMaker(inkex.Effect):
         # Call the base class constructor.
         inkex.Effect.__init__(self)
 
+        panels = ['front_panel','back_panel','left_panel','right_panel','top_panel','bottom_panel']
+        edge = ['bottom_edge','right_edge','top_edge','left_edge']
+        ns_h  = ['nutslot','screw_hole']
+
         # Define options
+        
+        for a in panels :
+            for b in edge :
+                for c in ns_h :
+                    d = a + '_'+ b + '_'+ c
+                    self.OptionParser.add_option(('--' + d) ,action='store', type="inkbool",
+                        dest= d ,default=True,help='Draw nut slots / screw holes')
+
+                
+
         self.OptionParser.add_option('--unit',action='store',type='string',
             dest='unit',default='mm',help='Measure Units')
         self.OptionParser.add_option('--inside',action='store',type='int',
@@ -242,6 +256,10 @@ class TSlotBoxMaker(inkex.Effect):
         self.OptionParser.add_option('--nut_diameter',action='store',type='float',
             dest='nut_diameter',default=25,help='Nut Diameter')
 
+
+
+
+
         self.OptionParser.add_option('--debug',action='store',type='int',
             dest='debug',default=0,help='Debug mode On/Off')
 
@@ -264,8 +282,60 @@ class TSlotBoxMaker(inkex.Effect):
         '''
         stuff all options inside a dictionary to avoid using global variables
         '''
+        box_dict['front_panel_bottom_edge_nutslot'] = self.options.front_panel_bottom_edge_nutslot
+        box_dict['front_panel_bottom_edge_screw_hole'] = self.options.front_panel_bottom_edge_screw_hole
+        box_dict['front_panel_right_edge_nutslot'] = self.options.front_panel_right_edge_nutslot
+        box_dict['front_panel_right_edge_screw_hole'] = self.options.front_panel_right_edge_screw_hole
+        box_dict['front_panel_top_edge_nutslot'] = self.options.front_panel_top_edge_nutslot
+        box_dict['front_panel_top_edge_screw_hole'] = self.options.front_panel_top_edge_screw_hole
+        box_dict['front_panel_left_edge_nutslot'] = self.options.front_panel_left_edge_nutslot
+        box_dict['front_panel_left_edge_screw_hole'] = self.options.front_panel_left_edge_screw_hole
+        box_dict['back_panel_bottom_edge_nutslot'] = self.options.back_panel_bottom_edge_nutslot
+        box_dict['back_panel_bottom_edge_screw_hole'] = self.options.back_panel_bottom_edge_screw_hole
+        box_dict['back_panel_right_edge_nutslot'] = self.options.back_panel_right_edge_nutslot
+        box_dict['back_panel_right_edge_screw_hole'] = self.options.back_panel_right_edge_screw_hole
+        box_dict['back_panel_top_edge_nutslot'] = self.options.back_panel_top_edge_nutslot
+        box_dict['back_panel_top_edge_screw_hole'] = self.options.back_panel_top_edge_screw_hole
+        box_dict['back_panel_left_edge_nutslot'] = self.options.back_panel_left_edge_nutslot
+        box_dict['back_panel_left_edge_screw_hole'] = self.options.back_panel_left_edge_screw_hole
+        box_dict['left_panel_bottom_edge_nutslot'] = self.options.left_panel_bottom_edge_nutslot
+        box_dict['left_panel_bottom_edge_screw_hole'] = self.options.left_panel_bottom_edge_screw_hole
+        box_dict['left_panel_right_edge_nutslot'] = self.options.left_panel_right_edge_nutslot
+        box_dict['left_panel_right_edge_screw_hole'] = self.options.left_panel_right_edge_screw_hole
+        box_dict['left_panel_top_edge_nutslot'] = self.options.left_panel_top_edge_nutslot
+        box_dict['left_panel_top_edge_screw_hole'] = self.options.left_panel_top_edge_screw_hole
+        box_dict['left_panel_left_edge_nutslot'] = self.options.left_panel_left_edge_nutslot
+        box_dict['left_panel_left_edge_screw_hole'] = self.options.left_panel_left_edge_screw_hole
+        box_dict['right_panel_bottom_edge_nutslot'] = self.options.right_panel_bottom_edge_nutslot
+        box_dict['right_panel_bottom_edge_screw_hole'] = self.options.right_panel_bottom_edge_screw_hole
+        box_dict['right_panel_right_edge_nutslot'] = self.options.right_panel_right_edge_nutslot
+        box_dict['right_panel_right_edge_screw_hole'] = self.options.right_panel_right_edge_screw_hole
+        box_dict['right_panel_top_edge_nutslot'] = self.options.right_panel_top_edge_nutslot
+        box_dict['right_panel_top_edge_screw_hole'] = self.options.right_panel_top_edge_screw_hole
+        box_dict['right_panel_left_edge_nutslot'] = self.options.right_panel_left_edge_nutslot
+        box_dict['right_panel_left_edge_screw_hole'] = self.options.right_panel_left_edge_screw_hole
+        box_dict['top_panel_bottom_edge_nutslot'] = self.options.top_panel_bottom_edge_nutslot
+        box_dict['top_panel_bottom_edge_screw_hole'] = self.options.top_panel_bottom_edge_screw_hole
+        box_dict['top_panel_right_edge_nutslot'] = self.options.top_panel_right_edge_nutslot
+        box_dict['top_panel_right_edge_screw_hole'] = self.options.top_panel_right_edge_screw_hole
+        box_dict['top_panel_top_edge_nutslot'] = self.options.top_panel_top_edge_nutslot
+        box_dict['top_panel_top_edge_screw_hole'] = self.options.top_panel_top_edge_screw_hole
+        box_dict['top_panel_left_edge_nutslot'] = self.options.top_panel_left_edge_nutslot
+        box_dict['top_panel_left_edge_screw_hole'] = self.options.top_panel_left_edge_screw_hole
+        box_dict['bottom_panel_bottom_edge_nutslot'] = self.options.bottom_panel_bottom_edge_nutslot
+        box_dict['bottom_panel_bottom_edge_screw_hole'] = self.options.bottom_panel_bottom_edge_screw_hole
+        box_dict['bottom_panel_right_edge_nutslot'] = self.options.bottom_panel_right_edge_nutslot
+        box_dict['bottom_panel_right_edge_screw_hole'] = self.options.bottom_panel_right_edge_screw_hole
+        box_dict['bottom_panel_top_edge_nutslot'] = self.options.bottom_panel_top_edge_nutslot
+        box_dict['bottom_panel_top_edge_screw_hole'] = self.options.bottom_panel_top_edge_screw_hole
+        box_dict['bottom_panel_left_edge_nutslot'] = self.options.bottom_panel_left_edge_nutslot
+        box_dict['bottom_panel_left_edge_screw_hole'] = self.options.bottom_panel_left_edge_screw_hole
+
+
         box_dict['debug'] = self.options.debug
         box_dict['draw_original'] = self.options.draw_original
+    
+
 
 
         # Get access to main SVG document element and get its dimensions.

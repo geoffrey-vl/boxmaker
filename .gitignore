@@ -24,6 +24,8 @@ pip-log.txt
 
 #miscellaneous 
 inkex.py
+simplepath.py
+simplestyle.py
 
 # Unit test / coverage reports
 .coverage
