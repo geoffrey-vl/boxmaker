@@ -70,7 +70,7 @@ def t_slot(center, orient, my_dict ):
     return path
 
 
-def side((rx,ry),(sox,soy),(eox,eoy),tabVec,length,(dirx,diry),isTab,lS_up, my_dict):
+def side(name, (rx,ry),(sox,soy),(eox,eoy),tabVec,length,(dirx,diry),isTab,lS_up, my_dict):
     #       root startOffset endOffset tabVec length  direction  isTab
     
     if my_dict['debug'] :
@@ -117,18 +117,9 @@ def side((rx,ry),(sox,soy),(eox,eoy),tabVec,length,(dirx,diry),isTab,lS_up, my_d
     (Vx,Vy)=(rx+sox*thickness,ry+soy*thickness)
     
     s='M '+str(Vx)+','+str( -1 * Vy)+' '
-
-    if dirxN:
-        Vy=ry # set correct line start
-        HV = 'Y'
-    if diryN:
-        Vx=rx
-        HV = 'X'
     # generate line as tab or hole using:
     #   last co-ord:Vx,Vy ; tab dir:tabVec  ; direction:dirx,diry ; thickness:thickness
     #   divisions:divs ; gap width:gapWidth ; tab width:tabWidth
-
-
 
 
     if my_dict['debug'] :
@@ -143,13 +134,16 @@ def side((rx,ry),(sox,soy),(eox,eoy),tabVec,length,(dirx,diry),isTab,lS_up, my_d
         inkex.errormsg('thickness  {} , half_thickness {} '.format( thickness , half_thickness  ))
         inkex.errormsg('  \n\n ' )
 
-
+    #setup for nut slots and holes
     s_h_flipflop = '0' # always skip the first hole or nut slot.
 
-    if HV == ('X' and sox) or ('Y' and soy)  : 
+    if isTab  : 
         start_sequence = 'O'
     else :
         start_sequence = 'I'
+    do_holes = my_dict[ name + '_screw_hole']
+    do_slots = my_dict[ name + '_nutslot']
+
 
     for n in range(1,int(divs)):
         if n%2:
@@ -157,12 +151,18 @@ def side((rx,ry),(sox,soy),(eox,eoy),tabVec,length,(dirx,diry),isTab,lS_up, my_d
             Vy=Vy+(diry*gapWidth+diryN*firstVec+first*diry)/2
             s+='L '+str(Vx)+','+str(-1*Vy)+' '
             if s_h_flipflop == 'I':
-                slot_path = t_slot((Vx,-1*Vy), lS_up , my_dict)
-                drawS(slot_path.drawXY(), my_dict['parent'])
+                if my_dict['debug'] :
+                    inkex.errormsg('first slot maker')
+                if do_slots :
+                    slot_path = t_slot((Vx,-1*Vy), lS_up , my_dict)
+                    drawS(slot_path.drawXY(), my_dict['parent'])
                 s_h_flipflop = 'O'
             elif s_h_flipflop == 'O' :
-                drawCircle( screw_r, ((Vx+lS_up[0] * half_thickness) , -1* (Vy -
-                    lS_up[1]*half_thickness )), my_dict )
+                if my_dict['debug'] :
+                    inkex.errormsg('first hole maker')
+                if do_holes :
+                    drawCircle( screw_r, ((Vx+lS_up[0] * half_thickness) , -1* (Vy -
+                        lS_up[1]*half_thickness )), my_dict )
                 s_h_flipflop = 'I'
             else : s_h_flipflop = start_sequence 
 
@@ -179,12 +179,18 @@ def side((rx,ry),(sox,soy),(eox,eoy),tabVec,length,(dirx,diry),isTab,lS_up, my_d
             s+='L '+str(Vx)+','+str(-1*Vy)+' '
 
             if s_h_flipflop == 'I':
-                slot_path = t_slot((Vx,-1*Vy), lS_up , my_dict)
-                drawS(slot_path.drawXY(), my_dict['parent'])
+                if my_dict['debug'] :
+                    inkex.errormsg('second slot maker')
+                if do_slots :
+                    slot_path = t_slot((Vx,-1*Vy), lS_up , my_dict)
+                    drawS(slot_path.drawXY(), my_dict['parent'])
                 s_h_flipflop ='O'
             elif s_h_flipflop == 'O' :
-                drawCircle( screw_r, (Vx +lS_up[0]*half_thickness  , -1* (Vy
-                    -lS_up[1]*half_thickness )), my_dict )
+                if my_dict['debug'] :
+                    inkex.errormsg('second hole maker')
+                if do_holes :
+                    drawCircle( screw_r, (Vx +lS_up[0]*half_thickness  , -1* (Vy
+                        -lS_up[1]*half_thickness )), my_dict )
                 s_h_flipflop = 'I'
             else : s_h_flipflop = start_sequence 
 
@@ -249,7 +255,7 @@ class Edge:
 #       root startOffset endOffset tabVec length  direction  isTab
     
         if i == i :
-            S = side( (x , y ), (sox,soy) , (eox,eoy) , tab_direction * my_dict['thickness'],length ,
+            S = side(name, (x , y ), (sox,soy) , (eox,eoy) , tab_direction * my_dict['thickness'],length ,
                 directionV2, isTab  ,S_up, my_dict)
 
 

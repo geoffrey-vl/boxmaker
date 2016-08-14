@@ -106,9 +106,8 @@ def t_slots((rx,ry),(sox,soy),(eox,eoy),tabVec,length,(dirx,diry),isTab, do_hole
     step = Vec2([dirx * (tabWidth + gapWidth + firstVec * 2), diry * (tabWidth + gapWidth + firstVec * 2)])
     orient = Vec2([-diry * (my_dict['screw_length'] - my_dict['thickness'] ), dirx * (my_dict['screw_length'] - my_dict['thickness'] )])
 
-    if debug :
+    if my_dict['debug'] :
         inkex.errormsg(_('orient is {}'.format(  orient)))
-    if debug :
         inkex.errormsg(_('orient is {}'.format(  orient / orient.norm())))
       
 
@@ -469,7 +468,7 @@ class TSlotBoxMaker(inkex.Effect):
             tabs=piece[4]
             slots = piece[5]
             holes = piece[6]
-            if debug:
+            if box_dict['debug']:
                 inkex.errormsg(_('tabs {}'.format(  tabs )))
 
                 inkex.errormsg(_('slots {}'.format(  slots )))
@@ -490,7 +489,8 @@ class TSlotBoxMaker(inkex.Effect):
     #       root startOffset endOffset tabVec length  direction  isTab
 
             if slots:
-                if debug :
+                
+                if box_dict['debug'] :
                     inkex.errormsg(_('slots {}'.format(  slots )))
 
                 [drawS(slot, box_dict['parent']) for slot in t_slots((x,y),(d,a),(-b,a),-box_dict['thickness'] if a else
