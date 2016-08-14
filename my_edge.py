@@ -117,6 +117,10 @@ def side(name, (rx,ry),(sox,soy),(eox,eoy),tabVec,length,(dirx,diry),isTab,lS_up
     (Vx,Vy)=(rx+sox*thickness,ry+soy*thickness)
     
     s='M '+str(Vx)+','+str( -1 * Vy)+' '
+
+    if dirxN: Vy=ry
+    if diryN: Vx=rx
+
     # generate line as tab or hole using:
     #   last co-ord:Vx,Vy ; tab dir:tabVec  ; direction:dirx,diry ; thickness:thickness
     #   divisions:divs ; gap width:gapWidth ; tab width:tabWidth
