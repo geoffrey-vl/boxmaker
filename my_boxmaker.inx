@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
   <_name>T-Slot Box Maker</_name>
-  <id>eu.twot.render.my_boxmaker</id>
+  <id>eu.twot.render.my_boxmaker_1</id>
 
   <dependency type="executable" location="extensions">my_boxmaker.py</dependency>
   <dependency type="executable" location="extensions">ink_helper.py</dependency>
