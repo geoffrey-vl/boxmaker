@@ -3,72 +3,6 @@ from ink_helper import *
 
 
 import inkex 
-# jslee - shamelessly adapted from sample code on below Inkscape wiki page 2015-07-28
-# http://wiki.inkscape.org/wiki/index.php/Generating_objects_from_extensions
-def drawCircle(r, (cx, cy), parent):
-#    log("putting circle at (%d,%d)" % (cx,cy))
-    style = { 'stroke': '#000000', 'stroke-width': '1', 'fill': 'none' }
-    ell_attribs = {'style':simplestyle.formatStyle(style),
-        inkex.addNS('cx','sodipodi')        :str(cx),
-        inkex.addNS('cy','sodipodi')        :str(cy),
-        inkex.addNS('rx','sodipodi')        :str(r),
-        inkex.addNS('ry','sodipodi')        :str(r),
-        inkex.addNS('start','sodipodi')     :str(0),
-        inkex.addNS('end','sodipodi')       :str(2*math.pi),
-        inkex.addNS('open','sodipodi')      :'true', #all ellipse sectors we will draw are open
-        inkex.addNS('type','sodipodi')      :'arc',
-        'transform'                         :'' }
-    inkex.etree.SubElement(parent, inkex.addNS('path','svg'), ell_attribs )
-
-
-def drill(center, diameter, n_pt):
-    from math import sin, cos, pi
-    center = Vec2(center)
-    radius = diameter / 2.
-    out = Vec2([1, 0])
-    up = Vec2([0, 1])
-    path = Path([center + out * radius])
-    dtheta = (2 * pi) / n_pt
-    for k in range(n_pt + 1):
-        path.append(center + out * radius * cos(k * dtheta) + up * radius * sin(k * dtheta))
-    return path
-  
-def t_slot(center, orient, thickness, screw_length, screw_diameter, nut_diameter, nut_height ):
-    '''
-    make one t-slot starting 
-              __
-             |  |
-  -----------+  +-----+      ------
-                      |        ^
-  x center            |   screw_diameter  x----------------------> orient
-                      |        v
-
-  -----------+  +-----+      ------
-             |  |
-              --
-    '''
- 
-    orient = orient*(screw_length - thickness -nut_height  )
-
-    orient = Vec2(orient)
-    out = orient / orient.norm() 
-    up = Vec2([out[1], -out[0]])
-    center = Vec2(center)
-    screw_r = screw_diameter / 2.
-    nut_r = nut_diameter / 2.
-    nut_w = screw_diameter
-    #nut_w = nut_height
-    path = Path([center + up * screw_r])
-    path.append_from_last(orient  )
-    path.append_from_last(up * (nut_r - screw_r))
-    path.append_from_last(out *  nut_height  )
-    path.append_from_last(-up * (nut_r - screw_r))
-    path.append_from_last(out * (nut_height/4))
-    path.append_from_last(-up * screw_r)
-    path.extend(path.reflect(center, up).reverse())
-    return path
-
-
 class Edge:
     '''
     an edge class to hold all information of an edge
@@ -120,7 +54,7 @@ class Edge:
         (Vx,Vy)=(self.x+self.sox*self.thickness,self.y+self.soy*self.thickness)
     
         s='M '+str(Vx)+','+str( -1 * Vy)+' '
-
+         
         if dirxN: Vy=self.y
         if diryN: Vx=self.x
 
@@ -138,7 +72,8 @@ class Edge:
         
             inkex.errormsg('self.inV2 {} , '.format( self.inV2 ))
             inkex.errormsg('firstVec {} , secondVec {} ,  '.format(  firstVec, secondVec  ))
-            inkex.errormsg('thickness  {} , half_thickness {} '.format( self.thickness , half_thickness  ))
+            inkex.errormsg('thickness  {} , half_thickness {} '.format( self.thickness ,
+                half_thickness  ))
             inkex.errormsg('  \n\n ' )
 
         #setup for nut slots and holes
@@ -151,31 +86,38 @@ class Edge:
 
 
         for n in range(1,int(divs)):
-            if n%2:
-                Vx=Vx+(self.dirV2[0]*gapWidth+dirxN*firstVec+first*self.dirV2[0])/2
-                Vy=Vy+(self.dirV2[1]*gapWidth+diryN*firstVec+first*self.dirV2[1])/2
+            if n == 1:
+                Vx=Vx+(self.dirV2[0]*gapWidth+dirxN*firstVec+first*self.dirV2[0])
+                Vy=Vy+(self.dirV2[1]*gapWidth+diryN*firstVec+first*self.dirV2[1])
                 s+='L '+str(Vx)+','+str(-1*Vy)+' '
+                Vx=Vx+dirxN*secondVec
+                Vy=Vy+diryN*secondVec
+                s+='L '+str(Vx)+','+str(-1*Vy)+' '
+                s_h_flipflop = start_sequence 
+
+            elif n%2:
+                Vx=Vx+(self.dirV2[0]*gapWidth+dirxN*firstVec)/2
+                Vy=Vy+(self.dirV2[1]*gapWidth+diryN*firstVec)/2
+                s+='L '+str(Vx)+','+str(-1*Vy)+' '
+                
+
                 if s_h_flipflop == 'I':
-                    if self.debug :
-                        inkex.errormsg('first slot maker')
                     if self.do_slots :
                         slot_path = t_slot((Vx,-1*Vy), self.inV2 ,self.thickness, self.screw_length,
                                 self.screw_diameter, self.nut_diameter, self.nut_height )
                         drawS(slot_path.drawXY(), self.parent)
                     s_h_flipflop = 'O'
                 elif s_h_flipflop == 'O' :
-                    if self.debug :
-                        inkex.errormsg('first hole maker')
                     if self.do_holes :
                         drawCircle( screw_r, ((Vx+self.inV2[0] * half_thickness) , -1* (Vy -
                             self.inV2[1]*half_thickness )), self.parent  )
                     s_h_flipflop = 'I'
                 else : s_h_flipflop = start_sequence 
 
-                Vx=Vx+(self.dirV2[0]*gapWidth+dirxN*firstVec+first*self.dirV2[0])/2
-                Vy=Vy+(self.dirV2[1]*gapWidth+diryN*firstVec+first*self.dirV2[1])/2
+                Vx=Vx+(self.dirV2[0]*gapWidth+dirxN*firstVec)/2
+                Vy=Vy+(self.dirV2[1]*gapWidth+diryN*firstVec)/2
                 s+='L '+str(Vx)+','+str(-1*Vy)+' '
-
+ 
                 Vx=Vx+dirxN*secondVec
                 Vy=Vy+diryN*secondVec
                 s+='L '+str(Vx)+','+str(-1*Vy)+' '
@@ -183,10 +125,8 @@ class Edge:
                 Vx=Vx+(self.dirV2[0]*tabWidth+dirxN*firstVec)/2
                 Vy=Vy+(self.dirV2[1]*tabWidth+diryN*firstVec)/2
                 s+='L '+str(Vx)+','+str(-1*Vy)+' '
-
+ 
                 if s_h_flipflop == 'I':
-                    if self.debug :
-                        inkex.errormsg('second slot maker')
                     if self.do_slots :
                         slot_path = t_slot((Vx,-1*Vy), self.inV2 ,self.thickness, self.screw_length,
                                 self.screw_diameter, self.nut_diameter, self.nut_height )
@@ -194,8 +134,6 @@ class Edge:
                         drawS(slot_path.drawXY(), self.parent)
                     s_h_flipflop ='O'
                 elif s_h_flipflop == 'O' :
-                    if self.debug :
-                        inkex.errormsg('second hole maker')
                     if self.do_holes :
                         drawCircle( screw_r, (Vx +self.inV2[0]*half_thickness  , -1* (Vy
                             -self.inV2[1]*half_thickness )), self.parent  )
@@ -213,10 +151,10 @@ class Edge:
 
 
             (secondVec,firstVec)=(-secondVec,-firstVec) # swap tab direction
-            first=0
 
         s+='L '+str(self.x+self.eox*self.thickness+self.dirV2[0]*self.length)+','+str(-1*(
             self.y+self.eoy*self.thickness+self.dirV2[1]*self.length))+' '
+
         return s
 
 

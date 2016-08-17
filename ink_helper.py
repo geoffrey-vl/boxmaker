@@ -10,6 +10,72 @@ def drawS(XYstring, parent):         # Draw lines from a list
     inkex.etree.SubElement(parent, inkex.addNS('path','svg'), drw )
     return
 
+# jslee - shamelessly adapted from sample code on below Inkscape wiki page 2015-07-28
+# http://wiki.inkscape.org/wiki/index.php/Generating_objects_from_extensions
+def drawCircle(r, (cx, cy), parent):
+#    log("putting circle at (%d,%d)" % (cx,cy))
+    style = { 'stroke': '#000000', 'stroke-width': '1', 'fill': 'none' }
+    ell_attribs = {'style':simplestyle.formatStyle(style),
+        inkex.addNS('cx','sodipodi')        :str(cx),
+        inkex.addNS('cy','sodipodi')        :str(cy),
+        inkex.addNS('rx','sodipodi')        :str(r),
+        inkex.addNS('ry','sodipodi')        :str(r),
+        inkex.addNS('start','sodipodi')     :str(0),
+        inkex.addNS('end','sodipodi')       :str(2*math.pi),
+        inkex.addNS('open','sodipodi')      :'true', #all ellipse sectors we will draw are open
+        inkex.addNS('type','sodipodi')      :'arc',
+        'transform'                         :'' }
+    inkex.etree.SubElement(parent, inkex.addNS('path','svg'), ell_attribs )
+
+
+def drill(center, diameter, n_pt):
+    from math import sin, cos, pi
+    center = Vec2(center)
+    radius = diameter / 2.
+    out = Vec2([1, 0])
+    up = Vec2([0, 1])
+    path = Path([center + out * radius])
+    dtheta = (2 * pi) / n_pt
+    for k in range(n_pt + 1):
+        path.append(center + out * radius * cos(k * dtheta) + up * radius * sin(k * dtheta))
+    return path
+  
+def t_slot(center, orient, thickness, screw_length, screw_diameter, nut_diameter, nut_height ):
+    '''
+    make one t-slot starting 
+              __
+             |  |
+  -----------+  +-----+      ------
+                      |        ^
+  x center            |   screw_diameter  x----------------------> orient
+                      |        v
+
+  -----------+  +-----+      ------
+             |  |
+              --
+    '''
+ 
+    orient = orient*(screw_length - thickness -nut_height  )
+
+    orient = Vec2(orient)
+    out = orient / orient.norm() 
+    up = Vec2([out[1], -out[0]])
+    center = Vec2(center)
+    screw_r = screw_diameter / 2.
+    nut_r = nut_diameter / 2.
+    nut_w = screw_diameter
+    #nut_w = nut_height
+    path = Path([center + up * screw_r])
+    path.append_from_last(orient  )
+    path.append_from_last(up * (nut_r - screw_r))
+    path.append_from_last(out *  nut_height  )
+    path.append_from_last(-up * (nut_r - screw_r))
+    path.append_from_last(out * (nut_height/4))
+    path.append_from_last(-up * screw_r)
+    path.extend(path.reflect(center, up).reverse())
+    return path
+
+
 class Vec2:
     '''
     There be dragons here!
@@ -101,6 +167,72 @@ class Path:
         xs = [l.x for l in self.path]
         ys = [l.y for l in self.path]
         plot(xs, ys, lt)
+# jslee - shamelessly adapted from sample code on below Inkscape wiki page 2015-07-28
+# http://wiki.inkscape.org/wiki/index.php/Generating_objects_from_extensions
+def drawCircle(r, (cx, cy), parent):
+#    log("putting circle at (%d,%d)" % (cx,cy))
+    style = { 'stroke': '#000000', 'stroke-width': '1', 'fill': 'none' }
+    ell_attribs = {'style':simplestyle.formatStyle(style),
+        inkex.addNS('cx','sodipodi')        :str(cx),
+        inkex.addNS('cy','sodipodi')        :str(cy),
+        inkex.addNS('rx','sodipodi')        :str(r),
+        inkex.addNS('ry','sodipodi')        :str(r),
+        inkex.addNS('start','sodipodi')     :str(0),
+        inkex.addNS('end','sodipodi')       :str(2*math.pi),
+        inkex.addNS('open','sodipodi')      :'true', #all ellipse sectors we will draw are open
+        inkex.addNS('type','sodipodi')      :'arc',
+        'transform'                         :'' }
+    inkex.etree.SubElement(parent, inkex.addNS('path','svg'), ell_attribs )
+
+
+def drill(center, diameter, n_pt):
+    from math import sin, cos, pi
+    center = Vec2(center)
+    radius = diameter / 2.
+    out = Vec2([1, 0])
+    up = Vec2([0, 1])
+    path = Path([center + out * radius])
+    dtheta = (2 * pi) / n_pt
+    for k in range(n_pt + 1):
+        path.append(center + out * radius * cos(k * dtheta) + up * radius * sin(k * dtheta))
+    return path
+  
+def t_slot(center, orient, thickness, screw_length, screw_diameter, nut_diameter, nut_height ):
+    '''
+    make one t-slot starting 
+              __
+             |  |
+  -----------+  +-----+      ------
+                      |        ^
+  x center            |   screw_diameter  x----------------------> orient
+                      |        v
+
+  -----------+  +-----+      ------
+             |  |
+              --
+    '''
+ 
+    orient = orient*(screw_length - thickness -nut_height  )
+
+    orient = Vec2(orient)
+    out = orient / orient.norm() 
+    up = Vec2([out[1], -out[0]])
+    center = Vec2(center)
+    screw_r = screw_diameter / 2.
+    nut_r = nut_diameter / 2.
+    nut_w = screw_diameter
+    #nut_w = nut_height
+    path = Path([center + up * screw_r])
+    path.append_from_last(orient  )
+    path.append_from_last(up * (nut_r - screw_r))
+    path.append_from_last(out *  nut_height  )
+    path.append_from_last(-up * (nut_r - screw_r))
+    path.append_from_last(out * (nut_height/4))
+    path.append_from_last(-up * screw_r)
+    path.extend(path.reflect(center, up).reverse())
+    return path
+
+
       
       
 def Vec2__test__():
