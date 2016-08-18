@@ -91,5 +91,12 @@ class Box:
 #            right_y,  width,  height))
        
         if my_dict['front_panel_cutout'] : self.front_panel.do_cutout()
+        if my_dict['back_panel_cutout'] : self.back_panel.do_cutout()
+        if my_dict['right_panel_cutout'] : self.right_panel.do_cutout()
+        if my_dict['left_panel_cutout'] : self.left_panel.do_cutout()
+        if my_dict['top_panel_cutout'] : self.top_panel.do_cutout()
+        if my_dict['bottom_panel_cutout'] : self.bottom_panel.do_cutout()
+        
+
 
 # vim: expandtab shiftwidth=4 tabstop=8 softtabstop=4 fileencoding=utf-8 textwidth=99

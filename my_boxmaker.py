@@ -220,7 +220,17 @@ class TSlotBoxMaker(inkex.Effect):
                     self.OptionParser.add_option(('--' + d) ,action='store', type="inkbool",
                         dest= d ,default=True,help='Draw nut slots / screw holes')
 
-                
+        cutout_options =['center_X','center_Y','dim_X','dim_Y','corner_R']
+
+        for a in panels :
+            for b in cutout_options :
+                d = a + '_' + b
+                self.OptionParser.add_option(('--'+d) , action='store', type='float',
+                        dest = d , default = 0.0 , help ='cutout options')
+            e = a + '_cutout'
+            self.OptionParser.add_option(('--' + e) ,action='store', type="inkbool",
+                        dest= e ,default=True,help='Draw cutout, True/False')
+
 
         self.OptionParser.add_option('--unit',action='store',type='string',
             dest='unit',default='mm',help='Measure Units')
@@ -262,20 +272,6 @@ class TSlotBoxMaker(inkex.Effect):
         self.OptionParser.add_option('--draw_original',action='store', type="inkbool",
             dest='draw_original',default=False,help='Draw original part')
 
-
-        self.OptionParser.add_option('--front_panel_cutout',action='store',type='inkbool',
-            dest='front_panel_cutout',default=True,help='Draw cutout True/False')
-
-        self.OptionParser.add_option('--front_panel_center_X',action='store',type='float',
-            dest='front_panel_center_X' ,default=40.0,help='Center Line of cutout side to side')
-        self.OptionParser.add_option('--front_panel_center_Y',action='store',type='float',
-            dest='front_panel_center_Y',default=40.0,help='Center Line of cutout up/down')
-        self.OptionParser.add_option('--front_panel_dim_X',action='store',type='float',
-            dest='front_panel_dim_X',default=10.0,help='Witdh of cutout')
-        self.OptionParser.add_option('--front_panel_dim_Y',action='store',type='float',
-            dest='front_panel_dim_Y',default=10.0,help='Height of cutout')
-        self.OptionParser.add_option('--front_panel_corner_R',action='store',type='float',
-            dest='front_panel_corner_R',default=5.0,help='Cutout corner radius')
 
         # here so we can have tabs - but we do not use it directly - else error
         self.OptionParser.add_option("", "--active-tab",action="store", type="string",
@@ -331,6 +327,7 @@ class TSlotBoxMaker(inkex.Effect):
         box_dict['top_panel_top_edge_screw_hole'] = self.options.top_panel_top_edge_screw_hole
         box_dict['top_panel_left_edge_nutslot'] = self.options.top_panel_left_edge_nutslot
         box_dict['top_panel_left_edge_screw_hole'] = self.options.top_panel_left_edge_screw_hole
+
         box_dict['bottom_panel_bottom_edge_nutslot'] = self.options.bottom_panel_bottom_edge_nutslot
         box_dict['bottom_panel_bottom_edge_screw_hole'] = self.options.bottom_panel_bottom_edge_screw_hole
         box_dict['bottom_panel_right_edge_nutslot'] = self.options.bottom_panel_right_edge_nutslot
@@ -342,6 +339,11 @@ class TSlotBoxMaker(inkex.Effect):
 
 
         box_dict['front_panel_cutout'] = self.options.front_panel_cutout
+        box_dict['left_panel_cutout'] = self.options.left_panel_cutout
+        box_dict['right_panel_cutout'] = self.options.right_panel_cutout
+        box_dict['back_panel_cutout'] = self.options.back_panel_cutout
+        box_dict['top_panel_cutout'] = self.options.top_panel_cutout
+        box_dict['bottom_panel_cutout'] = self.options.bottom_panel_cutout
 
 
 
@@ -375,12 +377,40 @@ class TSlotBoxMaker(inkex.Effect):
 
         box_dict['front_panel_center_X'] = self.unittouu( str(self.options.front_panel_center_X) + unit )
         box_dict['front_panel_center_Y'] = self.unittouu( str(self.options.front_panel_center_Y)  + unit )
-
         box_dict['front_panel_dim_X'] = self.unittouu( str(self.options.front_panel_dim_X)  + unit )
-
         box_dict['front_panel_dim_Y'] = self.unittouu( str(self.options.front_panel_dim_Y)  + unit )
-
         box_dict['front_panel_corner_R'] = self.unittouu( str(self.options.front_panel_corner_R)  + unit )
+
+        box_dict['right_panel_center_X'] = self.unittouu( str(self.options.right_panel_center_X) + unit )
+        box_dict['right_panel_center_Y'] = self.unittouu( str(self.options.right_panel_center_Y)  + unit )
+        box_dict['right_panel_dim_X'] = self.unittouu( str(self.options.right_panel_dim_X)  + unit )
+        box_dict['right_panel_dim_Y'] = self.unittouu( str(self.options.right_panel_dim_Y)  + unit )
+        box_dict['right_panel_corner_R'] = self.unittouu( str(self.options.right_panel_corner_R)  + unit )
+
+        box_dict['left_panel_center_X'] = self.unittouu( str(self.options.left_panel_center_X) + unit )
+        box_dict['left_panel_center_Y'] = self.unittouu( str(self.options.left_panel_center_Y)  + unit )
+        box_dict['left_panel_dim_X'] = self.unittouu( str(self.options.left_panel_dim_X)  + unit )
+        box_dict['left_panel_dim_Y'] = self.unittouu( str(self.options.left_panel_dim_Y)  + unit )
+        box_dict['left_panel_corner_R'] = self.unittouu( str(self.options.left_panel_corner_R)  + unit )
+
+        box_dict['back_panel_center_X'] = self.unittouu( str(self.options.back_panel_center_X) + unit )
+        box_dict['back_panel_center_Y'] = self.unittouu( str(self.options.back_panel_center_Y)  + unit )
+        box_dict['back_panel_dim_X'] = self.unittouu( str(self.options.back_panel_dim_X)  + unit )
+        box_dict['back_panel_dim_Y'] = self.unittouu( str(self.options.back_panel_dim_Y)  + unit )
+        box_dict['back_panel_corner_R'] = self.unittouu( str(self.options.back_panel_corner_R)  + unit )
+
+        box_dict['top_panel_center_X'] = self.unittouu( str(self.options.top_panel_center_X) + unit )
+        box_dict['top_panel_center_Y'] = self.unittouu( str(self.options.top_panel_center_Y)  + unit )
+        box_dict['top_panel_dim_X'] = self.unittouu( str(self.options.top_panel_dim_X)  + unit )
+        box_dict['top_panel_dim_Y'] = self.unittouu( str(self.options.top_panel_dim_Y)  + unit )
+        box_dict['top_panel_corner_R'] = self.unittouu( str(self.options.top_panel_corner_R)  + unit )
+
+        box_dict['bottom_panel_center_X'] = self.unittouu( str(self.options.bottom_panel_center_X) + unit )
+        box_dict['bottom_panel_center_Y'] = self.unittouu( str(self.options.bottom_panel_center_Y)  + unit )
+        box_dict['bottom_panel_dim_X'] = self.unittouu( str(self.options.bottom_panel_dim_X)  + unit )
+        box_dict['bottom_panel_dim_Y'] = self.unittouu( str(self.options.bottom_panel_dim_Y)  + unit )
+        box_dict['bottom_panel_corner_R'] = self.unittouu( str(self.options.bottom_panel_corner_R)  + unit )
+
 
 
         thickness = self.unittouu( str(self.options.thickness)  + unit )

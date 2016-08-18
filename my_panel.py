@@ -56,9 +56,12 @@ class Panel:
         
         
     def do_cutout(self):
-        ink_helper.cutoutArea( (self.x_coord +  self.dict[self.name + '_center_X'] ,self.y_coord + self.dict[self.name + '_center_Y']) ,
-            (self.dict[self.name + '_dim_X'] ,self.dict[self.name + '_dim_Y'] ),
-            self.dict['parent'],self.dict[self.name + '_corner_R'])
+        ink_helper.cutoutArea( (self.x_coord + self.x/2 + self.dict[self.name + '_center_X'] ,
+                                self.y_coord + self.y/2 + self.dict[self.name + '_center_Y']) ,
+                               ((self.dict[self.name + '_dim_X'])/2 ,
+                                 (self.dict[self.name + '_dim_Y'])/2 ),
+                                self.dict['parent'],
+                                self.dict[self.name + '_corner_R'])
 
         
 
