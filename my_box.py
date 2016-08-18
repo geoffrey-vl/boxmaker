@@ -90,6 +90,6 @@ class Box:
 #        inkex.errormsg('  right_x = {},  right_y = {},  width= {},  height = {} '.format(  right_x,
 #            right_y,  width,  height))
        
-
+        if my_dict['front_panel_cutout'] : self.front_panel.do_cutout()
 
 # vim: expandtab shiftwidth=4 tabstop=8 softtabstop=4 fileencoding=utf-8 textwidth=99

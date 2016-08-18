@@ -59,14 +59,25 @@
       <param name="nut_diameter" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Nut Diameter">6</param> 
     </page>
     <page name="Front" _gui-text="Front" >
-      <param name="front_panel_left_edge_nutslot" type="boolean" _gui-text="Left edge nut slots">true</param>
-      <param name="front_panel_bottom_edge_nutslot" type="boolean" _gui-text="Bottom edge nut slots">true</param>
-      <param name="front_panel_right_edge_nutslot" type="boolean" _gui-text="right edge nut slots">true</param>
+      <param name="front_panel_cutout" type="boolean" _gui-text="Draw cutout">true</param>
+      <param name="front_panel_center_X" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout Center line X (side to side)">40.0</param> 
+      <param name="front_panel_center_Y" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout Center Line Y (up and down)">40.0</param> 
+      <param name="front_panel_dim_X" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout width">10.0</param> 
+      <param name="front_panel_dim_Y" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout Height">10.0</param> 
+      <param name="front_panel_corner_R" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout corner radius">5.0</param> 
+
+
       <param name="front_panel_top_edge_nutslot" type="boolean" _gui-text="top edge nut slots">true</param>
-      <param name="front_panel_left_edge_screw_hole" type="boolean" _gui-text="Left edge screw holes">true</param>
-      <param name="front_panel_bottom_edge_screw_hole" type="boolean" _gui-text="Bottom edge screw holes">true</param>
-      <param name="front_panel_right_edge_screw_hole" type="boolean" _gui-text="right edge screw holes">true</param>
       <param name="front_panel_top_edge_screw_hole" type="boolean" _gui-text="top edge screw holes">true</param>
+
+      <param name="front_panel_left_edge_nutslot" type="boolean" _gui-text="Left edge nut slots">true</param>
+      <param name="front_panel_left_edge_screw_hole" type="boolean" _gui-text="Left edge screw holes">true</param>
+
+      <param name="front_panel_right_edge_nutslot" type="boolean" _gui-text="right edge nut slots">true</param>
+      <param name="front_panel_right_edge_screw_hole" type="boolean" _gui-text="right edge screw holes">true</param>
+
+      <param name="front_panel_bottom_edge_nutslot" type="boolean" _gui-text="Bottom edge nut slots">true</param>
+      <param name="front_panel_bottom_edge_screw_hole" type="boolean" _gui-text="Bottom edge screw holes">true</param>
 
     </page>
     <page name="Back" _gui-text="Back" >Back

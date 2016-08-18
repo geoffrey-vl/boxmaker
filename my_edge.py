@@ -64,7 +64,7 @@ class Edge:
 
 
         if self.debug :
-            inkex.errormsg('Vx {} ,optparseVy {} '.format(  Vx , Vy ))
+            inkex.errormsg('Vx {} , Vy {} '.format(  Vx , Vy ))
     
             inkex.errormsg('self.dirV2[0] {} , self.dirV2[1] {} '.format(  self.dirV2[0] , self.dirV2[1] ))
         

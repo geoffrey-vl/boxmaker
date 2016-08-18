@@ -10,9 +10,11 @@ def drawS(XYstring, parent):         # Draw lines from a list
     inkex.etree.SubElement(parent, inkex.addNS('path','svg'), drw )
     return
 
+def drawArc(r, (cx , cy ), start , end, parent):
+
+
 # jslee - shamelessly adapted from sample code on below Inkscape wiki page 2015-07-28
 # http://wiki.inkscape.org/wiki/index.php/Generating_objects_from_extensions
-def drawCircle(r, (cx, cy), parent):
 #    log("putting circle at (%d,%d)" % (cx,cy))
     style = { 'stroke': '#000000', 'stroke-width': '1', 'fill': 'none' }
     ell_attribs = {'style':simplestyle.formatStyle(style),
@@ -20,12 +22,42 @@ def drawCircle(r, (cx, cy), parent):
         inkex.addNS('cy','sodipodi')        :str(cy),
         inkex.addNS('rx','sodipodi')        :str(r),
         inkex.addNS('ry','sodipodi')        :str(r),
-        inkex.addNS('start','sodipodi')     :str(0),
-        inkex.addNS('end','sodipodi')       :str(2*math.pi),
+        inkex.addNS('start','sodipodi')     :str(start),
+        inkex.addNS('end','sodipodi')       :str(end),
         inkex.addNS('open','sodipodi')      :'true', #all ellipse sectors we will draw are open
         inkex.addNS('type','sodipodi')      :'arc',
         'transform'                         :'' }
     inkex.etree.SubElement(parent, inkex.addNS('path','svg'), ell_attribs )
+
+def drawCircle(r, (cx, cy), parent):
+    drawArc(r, (cx,cy), 0 , 2*math.pi)
+
+
+def cutoutArea(  (centerLnX , centerLnY) , ( dX , dY) ,parent,  cornerR = 0.0 ):
+    ''' draws a cutout opening given two centerlines, length and width, and corner radius)
+    '''
+
+    
+    x0,y0 =  centerLnX -dX  , centerLnY -dY 
+    x1,y1 = centerLnX -dX + cornerR  , centerLnY -dY +cornerR 
+    x2,y2 = centerLnX + dX - cornerR  , centerLnY +dY -cornerR 
+    x3,y3 = centerLnX + dX , centerLnY +dY
+
+    S='M '+str(x1)+','+str(-y0)+' '
+    S+='L '+str(x2) +','+str( -y0) +' '
+    S+='M '+str(x3)+','+str(-y1)+' '
+    S+='L '+str(x3) +','+str( -y2) +' '
+    S+='M '+str(x2)+','+str(-y3)+' '
+    S+='L '+str(x1) +','+str( -y3) +' '
+    S+='M '+str(x0)+','+str(-y2)+' '
+    S+='L '+str(x0) +','+str( -y1) +' '
+
+    drawS(S , parent)
+    drawArc(cornerR, (x2 , -y1 ), 0 , math.pi/2, parent)
+    drawArc(cornerR, (x1 , -y1 ), math.pi/2 , math.pi, parent)
+    drawArc(cornerR, (x1 , -y2 ), math.pi , 3*math.pi/2, parent)
+    drawArc(cornerR, (x2 , -y2 ), 3*math.pi/2 , 0, parent)
+
 
 
 def drill(center, diameter, n_pt):
@@ -56,6 +88,7 @@ def t_slot(center, orient, thickness, screw_length, screw_diameter, nut_diameter
     '''
  
     orient = orient*(screw_length - thickness -nut_height  )
+
 
     orient = Vec2(orient)
     out = orient / orient.norm() 

@@ -1,6 +1,7 @@
 from my_edge import Edge
 
 import inkex
+import ink_helper
 
 def appendScript(parent,x,y, text):
     super = inkex.etree.SubElement(parent, inkex.addNS('text', 'svg'), 
@@ -32,7 +33,15 @@ class Panel:
 
     def __init__(self, name, x_coord, y_coord, (a,b,c,d) , x , y, my_dict):
 
-        self.name = name 
+        self.name = name
+        self.x_coord = x_coord
+        self.y_coord = y_coord 
+        self.x = x
+        self.y = y
+
+
+
+        self.dict = my_dict
 
         self.bottom_edge = Edge(self.name, 'bottom_edge' ,   x_coord ,     y_coord , ( d, a),(-b, a ), a ,1- 2*a , x, my_dict)
 
@@ -46,7 +55,12 @@ class Panel:
             )), self.name)
         
         
+    def do_cutout(self):
+        ink_helper.cutoutArea( (self.x_coord +  self.dict[self.name + '_center_X'] ,self.y_coord + self.dict[self.name + '_center_Y']) ,
+            (self.dict[self.name + '_dim_X'] ,self.dict[self.name + '_dim_Y'] ),
+            self.dict['parent'],self.dict[self.name + '_corner_R'])
 
+        
 
     
     

@@ -256,9 +256,6 @@ class TSlotBoxMaker(inkex.Effect):
             dest='nut_diameter',default=25,help='Nut Diameter')
 
 
-
-
-
         self.OptionParser.add_option('--debug',action='store',type='int',
             dest='debug',default=0,help='Debug mode On/Off')
 
@@ -266,9 +263,22 @@ class TSlotBoxMaker(inkex.Effect):
             dest='draw_original',default=False,help='Draw original part')
 
 
+        self.OptionParser.add_option('--front_panel_cutout',action='store',type='inkbool',
+            dest='front_panel_cutout',default=True,help='Draw cutout True/False')
+
+        self.OptionParser.add_option('--front_panel_center_X',action='store',type='float',
+            dest='front_panel_center_X' ,default=40.0,help='Center Line of cutout side to side')
+        self.OptionParser.add_option('--front_panel_center_Y',action='store',type='float',
+            dest='front_panel_center_Y',default=40.0,help='Center Line of cutout up/down')
+        self.OptionParser.add_option('--front_panel_dim_X',action='store',type='float',
+            dest='front_panel_dim_X',default=10.0,help='Witdh of cutout')
+        self.OptionParser.add_option('--front_panel_dim_Y',action='store',type='float',
+            dest='front_panel_dim_Y',default=10.0,help='Height of cutout')
+        self.OptionParser.add_option('--front_panel_corner_R',action='store',type='float',
+            dest='front_panel_corner_R',default=5.0,help='Cutout corner radius')
+
         # here so we can have tabs - but we do not use it directly - else error
-        self.OptionParser.add_option("", "--active-tab",
-                                    action="store", type="string",
+        self.OptionParser.add_option("", "--active-tab",action="store", type="string",
                                     dest="active_tab", default='title', # use a legitmate default
                                     help="Active tab.")
 
@@ -331,6 +341,14 @@ class TSlotBoxMaker(inkex.Effect):
         box_dict['bottom_panel_left_edge_screw_hole'] = self.options.bottom_panel_left_edge_screw_hole
 
 
+        box_dict['front_panel_cutout'] = self.options.front_panel_cutout
+
+
+
+
+
+
+
         box_dict['debug'] = self.options.debug
         box_dict['draw_original'] = self.options.draw_original
     
@@ -354,6 +372,17 @@ class TSlotBoxMaker(inkex.Effect):
     
         # Get script's option values.
         unit=self.options.unit
+
+        box_dict['front_panel_center_X'] = self.unittouu( str(self.options.front_panel_center_X) + unit )
+        box_dict['front_panel_center_Y'] = self.unittouu( str(self.options.front_panel_center_Y)  + unit )
+
+        box_dict['front_panel_dim_X'] = self.unittouu( str(self.options.front_panel_dim_X)  + unit )
+
+        box_dict['front_panel_dim_Y'] = self.unittouu( str(self.options.front_panel_dim_Y)  + unit )
+
+        box_dict['front_panel_corner_R'] = self.unittouu( str(self.options.front_panel_corner_R)  + unit )
+
+
         thickness = self.unittouu( str(self.options.thickness)  + unit )
         inside=self.options.inside
         X = self.unittouu( str(self.options.length)  + unit )
@@ -398,6 +427,7 @@ class TSlotBoxMaker(inkex.Effect):
         if min(X,Y,Z)<3*box_dict['nom_tab_width']:
             inkex.errormsg(_('Error: Tab size too large'))
             error=1
+
         if box_dict['nom_tab_width']<thickness:
             inkex.errormsg(_('Error: Tab size too small'))
             error=1	  
@@ -474,8 +504,8 @@ class TSlotBoxMaker(inkex.Effect):
                 inkex.errormsg(_('slots {}'.format(  slots )))
 
                 inkex.errormsg(_('holes {}'.format(  holes )))
-#def side((rx,ry),(sox,soy),(eox,eoy),tabVec,length,(dirx,diry),isTab, my_dict):
-    #       root startOffset endOffset tabVec length  direction  isTab
+            #def side((rx,ry),(sox,soy),(eox,eoy),tabVec,length,(dirx,diry),isTab, my_dict):
+            #       root startOffset endOffset tabVec length  direction  isTab
 
 
             a=tabs>>3&1; b=tabs>>2&1; c=tabs>>1&1; d=tabs&1 # extract tab status for each side
