@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 '''
 Generates Inkscape SVG file containing box components needed to 
 laser cut a tabbed construction box taking kerf and clearance into account
@@ -18,7 +19,7 @@ GNU General Public License for more details
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
-__version__ = "0.9" ### please report bugs, suggestions etc to j.apple.muncy@gmail.com ###
+__version__ = "0.91" ### please report bugs, suggestions etc to j.apple.muncy@gmail.com ###
 
 from ink_helper import *
 
@@ -26,182 +27,11 @@ _ = gettext.gettext
 
 import inkex 
 inkex.localize()
-
-#DEBUG = True
-
-def drill(center, diameter, n_pt):
-    from math import sin, cos, pi
-    center = Vec2(center)
-    radius = diameter / 2.
-    out = Vec2([1, 0])
-    up = Vec2([0, 1])
-    path = Path([center + out * radius])
-    dtheta = (2 * pi) / n_pt
-    for k in range(n_pt + 1):
-        path.append(center + out * radius * cos(k * dtheta) + up * radius * sin(k * dtheta))
-    return path 
-  
-def t_slot(center, orient, my_dict ):
-    '''
-    make one t-slot starting 
-              __
-             |  |
-  -----------+  +-----+      ------
-                      |        ^
-  x center            |   screw_diameter  x----------------------> orient
-                      |        v
-
-  -----------+  +-----+      ------
-             |  |
-              --
-    '''
-    orient = Vec2(orient)
-    out = orient / orient.norm()
-    up = Vec2([out[1], -out[0]])
-    center = Vec2(center)
-    screw_r = my_dict['screw_diameter'] / 2.
-    nut_r = my_dict['nut_diameter'] / 2.
-    nut_w = my_dict['screw_diameter']
-    #nut_w = nut_height
-    path = Path([center + up * screw_r])
-    path.append_from_last(orient)
-    path.append_from_last(up * (nut_r - screw_r))
-    path.append_from_last(out * ( my_dict['nut_height']  ))
-    path.append_from_last(-up * (nut_r - screw_r))
-    path.append_from_last(out * (my_dict['nut_height']))
-    path.append_from_last(-up * screw_r)
-    path.extend(path.reflect(center, up).reverse())
-    return path
-
-def t_slots((rx,ry),(sox,soy),(eox,eoy),tabVec,length,(dirx,diry),isTab, do_holes, my_dict):
-    #       root startOffset endOffset tabVec length  direction  isTab
-
-    divs=int(length/my_dict['nom_tab_width'])  # divisions
-    if not divs%2: divs-=1   # make divs odd
-    divs=float(divs)
-    tabs=(divs-1)/2          # tabs for side
-  
-    if my_dict['equalTabs']=='Fixed':
-        gapWidth=tabWidth=length/divs
-    else:
-        tabWidth=my_dict['nom_tab_width']
-        gapWidth=(length-tabs*my_dict['nom_tab_width'])/(divs-tabs)
-    
-    if isTab:                 # kerf correction
-        gapWidth-=my_dict['correction']
-        tabWidth+=my_dict['correction']
-        first=my_dict['correction']/2
-    else:
-        gapWidth+=my_dict['correction']
-        tabWidth-=my_dict['correction']
-        first=-my_dict['correction']/2
-    
-    s=[] 
-    firstVec=0; secondVec=tabVec
-    dirxN=0 if dirx else 1 # used to select operation on x or y
-    diryN=0 if diry else 1
-    (Vx,Vy)=(rx+sox*my_dict['thickness'],ry+soy*my_dict['thickness'])
-    #nut_diameter = 3.25 * screw_diameter
-  
-    step = Vec2([dirx * (tabWidth + gapWidth + firstVec * 2), diry * (tabWidth + gapWidth + firstVec * 2)])
-    orient = Vec2([-diry * (my_dict['screw_length'] - my_dict['thickness'] ), dirx * (my_dict['screw_length'] - my_dict['thickness'] )])
-
-    if my_dict['debug'] :
-        inkex.errormsg(_('orient is {}'.format(  orient)))
-        inkex.errormsg(_('orient is {}'.format(  orient / orient.norm())))
-      
-
-    center = Vec2(Vx + dirx* (gapWidth + tabWidth/2.),
-            Vy + diry* (gapWidth + tabWidth/2.)) + (orient / orient.norm()) * my_dict['thickness']
-    slot = t_slot(center, orient, my_dict )
-    hole = drill(center - (orient / orient.norm()) * (my_dict['thickness'] * 1.5 + my_dict['spacing']), 
-               my_dict['screw_diameter'], 45)
-  
-    slots = []
-    holes = []
-    for i in range(0,(int(divs)) / 2, 1):
-        slots.append(slot.translate(step * i))
-        if do_holes:
-            holes.append(hole.translate(step * i))
-            holes.append(hole.translate(step * i - orient / orient.norm() * (my_dict['height'] - my_dict['thickness']) ))
-
-    out = [s.drawXY() for s in slots]
-    out.extend([h.drawXY() for h in holes])
-
-    #if DEBUG : inkex.errormsg(_('out {}'.format( out)))
-
-    return out
-  
-def side((rx,ry),(sox,soy),(eox,eoy),tabVec,length,(dirx,diry),isTab, my_dict):
-    #       root startOffset endOffset tabVec length  direction  isTab
-    '''    if DEBUG :
-        inkex.errormsg(_('rx{}'.format(  rx ), end=', '))
-        inkex.errormsg(_('ry {}'.format(  ry ), end=', '))
-        inkex.errormsg(_('sox {}'.format(  sox ), end=', '))
-        inkex.errormsg(_('soy {}'.format(  soy ), end=', '))
-        inkex.errormsg(_('eox {}'.format(  eox )))
-        inkex.errormsg(_('eoy {}'.format(  eoy )))
-        inkex.errormsg(_('length {}'.format(  length )))
-        inkex.errormsg(_('dirx {}'.format(  dirx )))
-        inkex.errormsg(_('diry {}'.format(  diry )))
-    '''
-
-    divs=int(length/my_dict['nom_tab_width'])  # divisions
-    if not divs%2: divs-=1   # make divs odd
-    divs=float(divs)
-    tabs=(divs-1)/2          # tabs for side
-  
-    if my_dict['equalTabs']:
-        gapWidth=tabWidth=length/divs
-    else:
-        tabWidth=my_dict['nom_tab_width']
-        gapWidth=(length-tabs*my_dict['nom_tab_width'])/(divs-tabs)
-    
-    if isTab:                 # kerf correction
-        gapWidth-=my_dict['correction']
-        tabWidth+=my_dict['correction']
-        first=my_dict['correction']/2
-    else:
-        gapWidth+=my_dict['correction']
-        tabWidth-=my_dict['correction']
-        first=-my_dict['correction']/2
-    
-    firstVec=0; secondVec=tabVec
-    dirxN=0 if dirx else 1 # used to select operation on x or y
-    diryN=0 if diry else 1
-    (Vx,Vy)=(rx+sox*my_dict['thickness'],ry+soy*my_dict['thickness'])
-    s='M '+str(Vx)+','+str(Vy)+' '
-
-    if dirxN: Vy=ry # set correct line start
-    if diryN: Vx=rx
-
-    # generate line as tab or hole using:
-    #   last co-ord:Vx,Vy ; tab dir:tabVec  ; direction:dirx,diry ; thickness:thickness
-    #   divisions:divs ; gap width:gapWidth ; tab width:tabWidth
-
-    for n in range(1,int(divs)):
-        if n%2:
-            Vx=Vx+dirx*gapWidth+dirxN*firstVec+first*dirx
-            Vy=Vy+diry*gapWidth+diryN*firstVec+first*diry
-            s+='L '+str(Vx)+','+str(Vy)+' '
-            Vx=Vx+dirxN*secondVec
-            Vy=Vy+diryN*secondVec
-            s+='L '+str(Vx)+','+str(Vy)+' '
-        else:
-            Vx=Vx+dirx*tabWidth+dirxN*firstVec
-            Vy=Vy+diry*tabWidth+diryN*firstVec
-            s+='L '+str(Vx)+','+str(Vy)+' '
-            Vx=Vx+dirxN*secondVec
-            Vy=Vy+diryN*secondVec
-            s+='L '+str(Vx)+','+str(Vy)+' '
-
-        (secondVec,firstVec)=(-secondVec,-firstVec) # swap tab direction
-        first=0
-    s+='L '+str(rx+eox*my_dict['thickness']+dirx*length)+','+str(ry+eoy*my_dict['thickness']+diry*length)+' '
-    return s
-
   
 class TSlotBoxMaker(inkex.Effect):
+    """Top level class to handle setup and parse options. 
+
+    """
     def __init__(self):
 
         # Call the base class constructor.
@@ -266,17 +96,16 @@ class TSlotBoxMaker(inkex.Effect):
             dest='nut_diameter',default=25,help='Nut Diameter')
 
 
-        self.OptionParser.add_option('--debug',action='store',type='int',
-            dest='debug',default=0,help='Debug mode On/Off')
+        self.OptionParser.add_option('--debug',action='store',type='inkbool',
+            dest='debug',default=False,help='Debug mode On/Off')
 
-        self.OptionParser.add_option('--draw_original',action='store', type="inkbool",
-            dest='draw_original',default=False,help='Draw original part')
 
 
         # here so we can have tabs - but we do not use it directly - else error
-        self.OptionParser.add_option("", "--active-tab",action="store", type="string",
-                                    dest="active_tab", default='title', # use a legitmate default
-                                    help="Active tab.")
+        self.OptionParser.add_option("", "--active-tab",
+                                        action="store", type="string",
+                                        dest="active_tab", default='title', # use a legitmate default
+                                        help="Active tab.")
 
 
 
@@ -352,7 +181,6 @@ class TSlotBoxMaker(inkex.Effect):
 
 
         box_dict['debug'] = self.options.debug
-        box_dict['draw_original'] = self.options.draw_original
     
 
 
@@ -486,81 +314,6 @@ class TSlotBoxMaker(inkex.Effect):
         from my_box import Box
 
         box = Box(box_dict)
-        
-        if not box_dict['draw_original'] : return
-   
-    # layout format:(rootx),(rooty),Xlength,Ylength,tabInfo
-    # root= (spacing,X,Y,Z) * values in tuple
-    # tabInfo= <abcd> 0=holes 1=tabs
-        if   layout==1: # Diagramatic Layout
-            pieces=[[(2,0,0,1),(3,0,1,1),X,Z,0b1010, False, False],
-                   [(1,0,0,0),(2,0,0,1),Z,Y,0b1111, False, False],
-                   [(2,0,0,1),(2,0,0,1),X,Y,0b0000,  True,  True],
-                   [(3,1,0,1),(2,0,0,1),Z,Y,0b1111, False, False],
-                   [(4,1,0,2),(2,0,0,1),X,Y,0b0000,  True, False],
-                   [(2,0,0,1),(1,0,0,0),X,Z,0b1010, False, False]]
-        elif layout==2: # 3 Piece Layout
-            pieces=[[(2,0,0,1),(2,0,1,0),X,Z,0b1010, False, False],
-                   [(1,0,0,0),(1,0,0,0),Z,Y,0b1111, False, False],
-                   [(2,0,0,1),(1,0,0,0),X,Y,0b0000,  True, False]]
-        elif layout==3: # Inline(compact) Layout
-            pieces=[[(1,0,0,0),(1,0,0,0),X,Y,0b0000, False, False],
-                   [(2,1,0,0),(1,0,0,0),X,Y,0b0000, False, False],
-                   [(3,2,0,0),(1,0,0,0),Z,Y,0b0101,  True,  True],
-                   [(4,2,0,1),(1,0,0,0),Z,Y,0b0101, False, False],
-                   [(5,2,0,2),(1,0,0,0),X,Z,0b1111,  True, False],
-                   [(6,3,0,2),(1,0,0,0),X,Z,0b1111, False, False]]
-        elif layout==4: # Diagramatic Layout with Alternate Tab Arrangement
-            pieces=[[(2,0,0,1),(3,0,1,1),X,Z,0b1001, False, False],
-                   [(1,0,0,0),(2,0,0,1),Z,Y,0b1100, False, False],
-                   [(2,0,0,1),(2,0,0,1),X,Y,0b1100,  True, False],
-                   [(3,1,0,1),(2,0,0,1),Z,Y,0b0110, False,  True],
-                   [(4,1,0,2),(2,0,0,1),X,Y,0b0110,  True, False],
-                   [(2,0,0,1),(1,0,0,0),X,Z,0b1100, False, False]]
-
-        for piece in pieces: # generate and draw each piece of the box
-            (xs,xx,xy,xz)=piece[0]
-            (ys,yx,yy,yz)=piece[1]
-            x=xs*box_dict['spacing']+xx*X+xy*Y+xz*Z  # root x co-ord for piece
-            y=ys*box_dict['spacing']+yx*X+yy*Y+yz*Z  # root y co-ord for piece
-            dx=piece[2]
-            dy=piece[3]
-            tabs=piece[4]
-            slots = piece[5]
-            holes = piece[6]
-            if box_dict['debug']:
-                inkex.errormsg(_('tabs {}'.format(  tabs )))
-
-                inkex.errormsg(_('slots {}'.format(  slots )))
-
-                inkex.errormsg(_('holes {}'.format(  holes )))
-            #def side((rx,ry),(sox,soy),(eox,eoy),tabVec,length,(dirx,diry),isTab, my_dict):
-            #       root startOffset endOffset tabVec length  direction  isTab
-
-
-            a=tabs>>3&1; b=tabs>>2&1; c=tabs>>1&1; d=tabs&1 # extract tab status for each side
-      # generate and draw the sides of each piece
-            drawS(side((x,y),(d,a),(-b,a),-box_dict['thickness'] if a else box_dict['thickness'],dx,(1,0),a, box_dict), box_dict['parent'])          # side a
-            drawS(side((x+dx,y),(-b,a),(-b,-c),box_dict['thickness'] if b else -box_dict['thickness'],dy,(0,1),b, box_dict), box_dict['parent'])     # side b
-            drawS(side((x+dx,y+dy),(-b,-c),(d,-c),box_dict['thickness'] if c else -box_dict['thickness'],dx,(-1,0),c, box_dict), box_dict['parent']) # side c
-            drawS(side((x,y+dy),(d,-c),(d,a),-box_dict['thickness'] if d else box_dict['thickness'],dy,(0,-1),d, box_dict), box_dict['parent'])      # side d
-
-# side((rx,ry),(sox,soy),(eox,eoy),tabVec,length,(dirx,diry),isTab):
-    #       root startOffset endOffset tabVec length  direction  isTab
-
-            if slots:
-                
-                if box_dict['debug'] :
-                    inkex.errormsg(_('slots {}'.format(  slots )))
-
-                [drawS(slot, box_dict['parent']) for slot in t_slots((x,y),(d,a),(-b,a),-box_dict['thickness'] if a else
-                        box_dict['thickness'],dx,(1,0),a, holes, box_dict)]          # slot a
-                [drawS(slot, box_dict['parent']) for slot in t_slots((x+dx,y),(-b,a),(-b,-c), box_dict['thickness'] if b
-                        else -box_dict['thickness'],dy,(0,1),b, holes, box_dict)]   # slot b
-                [drawS(slot, box_dict['parent']) for slot in t_slots((x+dx,y+dy),(-b,-c),(d,-c),box_dict['thickness'] if c
-                        else -box_dict['thickness'],dx,(-1,0),c, holes, box_dict)] # slot c
-                [drawS(slot, box_dict['parent']) for slot in t_slots((x,y+dy),(d,-c),(d,a),-box_dict['thickness'] if d
-                        else box_dict['thickness'],dy,(0,-1),d, holes, box_dict)]      # slot d
 
 # Create effect instance and apply it.
 e = TSlotBoxMaker()
