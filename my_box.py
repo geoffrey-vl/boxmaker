@@ -54,9 +54,9 @@ class Box:
         x = length = my_dict['length']
         y = width = my_dict['width']
         z = height = my_dict['height']
-
-        inkex.errormsg('length = {} width = {} height = {} '.format( x , y , z))     
-        inkex.errormsg('s = {}'.format(s))
+        if my_dict['debug']:
+            inkex.errormsg('length = {0} width = {1} height = {2} '.format( x , y , z))     
+            inkex.errormsg('s = {0}'.format(s))
         '''
         Here we transform to 2 dimensional space to have this layout when drawn 
         calculating absolute coordinates starting point in 2d space for each panel
@@ -109,7 +109,7 @@ class Box:
         self.right_panel =Panel(  'right_panel',  right_x,   right_y, (a,b,c,d),  height, width, my_dict)
 
 
-#        inkex.errormsg('  right_x = {},  right_y = {},  width= {},  height = {} '.format(  right_x,
+#        inkex.errormsg('  right_x = {0},  right_y = {1},  width= {2},  height = {3} '.format(  right_x,
 #            right_y,  width,  height))
        
         if my_dict['front_panel_cutout'] : self.front_panel.do_cutout()

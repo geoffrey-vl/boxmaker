@@ -27,7 +27,7 @@ import ink_helper
 
 def appendScript(parent,x,y, text):
     super = inkex.etree.SubElement(parent, inkex.addNS('text', 'svg'), 
-            {'style':'font-size:200%' , 'fill':'red' , 'x':'{}'.format(x) , 'y':'{}'.format(y)})
+            {'style':'font-size:200%' , 'fill':'red' , 'x':'{0}'.format(x) , 'y':'{0}'.format(y)})
     super.text = text
 
 class Panel:

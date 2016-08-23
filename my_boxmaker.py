@@ -310,7 +310,8 @@ class TSlotBoxMaker(inkex.Effect):
         box_dict['width']=Y
         box_dict['height']=Z
         box_dict['thickness']= thickness
-        inkex.errormsg('length = {} width = {} height = {} '.format( X,Y,Z))          
+        if box_dict['debug'] :
+            inkex.errormsg('length = {0} width = {1} height = {2} '.format( X,Y,Z))          
         from my_box import Box
 
         box = Box(box_dict)

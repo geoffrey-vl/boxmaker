@@ -34,16 +34,16 @@ class Edge:
     #       root startOffset endOffset self.tabVec1 length  direction  isTab
     
         if self.debug :
-            inkex.errormsg(_('self.x{} , self.y {} , '.format(  self.x, self.y ),))
+            inkex.errormsg(_('self.x{0} , self.y {1} , '.format(  self.x, self.y ),))
         
             '''
-            inkex.errormsg(_('self.sox {}'.format(  self.sox ), end=', '))
-            inkex.errormsg(_('self.soy {}'.format(  self.soy ), end=', '))
-            inkex.errormsg(_('self.eox {}'.format(  self.eox )))
-            inkex.errormsg(_('self.eoy {}'.format(  self.eoy )))
-            inkex.errormsg(_('self.length {}'.format(  self.length )))
-            inkex.errormsg(_('self.dirV2[0] {}'.format(  self.dirV2[0] )))
-            inkex.errormsg(_('self.dirV2[1] {}'.format(  self.dirV2[1] )))
+            inkex.errormsg(_('self.sox {0}'.format(  self.sox ), end=', '))
+            inkex.errormsg(_('self.soy {0}'.format(  self.soy ), end=', '))
+            inkex.errormsg(_('self.eox {0}'.format(  self.eox )))
+            inkex.errormsg(_('self.eoy {0}'.format(  self.eoy )))
+            inkex.errormsg(_('self.length {0}'.format(  self.length )))
+            inkex.errormsg(_('self.dirV2[0] {0}'.format(  self.dirV2[0] )))
+            inkex.errormsg(_('self.dirV2[1] {0}'.format(  self.dirV2[1] )))
             '''
 
         divs=int(self.length/self.nom_tab_width)  # divisions
@@ -87,15 +87,15 @@ class Edge:
 
 
         if self.debug :
-            inkex.errormsg('Vx {} , Vy {} '.format(  Vx , Vy ))
+            inkex.errormsg('Vx {0} , Vy {1} '.format(  Vx , Vy ))
     
-            inkex.errormsg('self.dirV2[0] {} , self.dirV2[1] {} '.format(  self.dirV2[0] , self.dirV2[1] ))
+            inkex.errormsg('self.dirV2[0] {0} , self.dirV2[1] {1} '.format(  self.dirV2[0] , self.dirV2[1] ))
         
-            inkex.errormsg('dirxN {} , diryN {}'.format(  dirxN, diryN ))
+            inkex.errormsg('dirxN {0} , diryN {1}'.format(  dirxN, diryN ))
         
-            inkex.errormsg('self.inV2 {} , '.format( self.inV2 ))
-            inkex.errormsg('firstVec {} , secondVec {} ,  '.format(  firstVec, secondVec  ))
-            inkex.errormsg('thickness  {} , half_thickness {} '.format( self.thickness ,
+            inkex.errormsg('self.inV2 {0} , '.format( self.inV2 ))
+            inkex.errormsg('firstVec {0} , secondVec {1} ,  '.format(  firstVec, secondVec  ))
+            inkex.errormsg('thickness  {0} , half_thickness {1} '.format( self.thickness ,
                 half_thickness  ))
             inkex.errormsg('  \n\n ' )
 
@@ -256,7 +256,7 @@ class Edge:
             self.inV2 = Vec2(1,0)
 
         else :
-            inkex.debug('wrong edge parameter {} passed to edge class'.format(i))
+            inkex.debug('wrong edge parameter {0} passed to edge class'.format(i))
             
         #(Vx,Vy)=(self.x+sox*self.thickness,self.y+soy*self.thickness)
         from ink_helper import drawS
