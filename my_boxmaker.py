@@ -66,16 +66,28 @@ class TSlotBoxMaker(inkex.Effect):
             dest='unit',default='mm',help='Measure Units')
         self.OptionParser.add_option('--inside',action='store',type='int',
             dest='inside',default=0,help='Int/Ext Dimension')
+
         self.OptionParser.add_option('--length',action='store',type='float',
             dest='length' ,default=100,help='Length of Box')
         self.OptionParser.add_option('--width',action='store',type='float',
             dest='width',default=100,help='Width of Box')
         self.OptionParser.add_option('--depth',action='store',type='float',
-            dest='height',default=100,help='Height of Box')
-        self.OptionParser.add_option('--tab_width',action='store',type='float',
-            dest='tab_width',default=25,help='Nominal Tab Width')
+            dest='depth',default=100,help='Depth of Box')
+
+        self.OptionParser.add_option('--length_tab_width',action='store',type='float',
+            dest='length_tab_width',default=25,help='Lengthwise Nominal Tab Width ')
+
+        self.OptionParser.add_option('--width_tab_width',action='store',type='float',
+            dest='width_tab_width',default=25,help='Widthwize Nominal Tab Width')
+
+        self.OptionParser.add_option('--depth_tab_width',action='store',type='float',
+            dest='depth_tab_width',default=25,help='Depthwize Nominal Tab Width')
+
+
+
         self.OptionParser.add_option('--equal',action='store',type='string',
             dest='equal',default='Fixed',help='Equal/Prop Tabs')
+
         self.OptionParser.add_option('--thickness',action='store',type='float',
             dest='thickness',default=10,help='Thickness of Material')
         self.OptionParser.add_option('--kerf',action='store',type='float',
@@ -247,12 +259,18 @@ class TSlotBoxMaker(inkex.Effect):
         
         Y = self.unittouu( str(self.options.width) + unit )
         
-        Z = self.unittouu( str(self.options.height)  + unit )
+        Z = self.unittouu( str(self.options.depth)  + unit )
         
         
-        box_dict['nom_tab_width']=self.unittouu( str(self.options.tab_width) + unit )
-        #nom_tab_width = self.unittouu( str(self.options.tab_width) + unit )
+        box_dict['nom_length_tab_width']=self.unittouu( str(self.options.length_tab_width) + unit )
+        box_dict['nom_width_tab_width']=self.unittouu( str(self.options.width_tab_width) + unit )
+        box_dict['nom_depth_tab_width']=self.unittouu( str(self.options.depth_tab_width) + unit )
         
+
+
+
+
+
         box_dict['equalTabs']=self.options.equal
         kerf = self.unittouu( str(self.options.kerf)  + unit )
         clearance = self.unittouu( str(self.options.clearance)  + unit )
@@ -268,6 +286,12 @@ class TSlotBoxMaker(inkex.Effect):
             Y+=thickness*2
             Z+=thickness*2
 
+        box_dict['length']= X
+        box_dict['width']=Y
+        box_dict['depth']=Z
+        box_dict['thickness']= thickness
+
+
         box_dict['correction']=kerf-clearance
         '''
         Be careful to add all dictionary enteries before instanciating the box
@@ -282,11 +306,17 @@ class TSlotBoxMaker(inkex.Effect):
         if max(X,Y,Z)>max(box_dict['widthDoc'],box_dict['heightDoc'])*10: # crude test
             inkex.errormsg(_('Error: Dimensions Too Large'))
             error=1
-        if min(X,Y,Z)<3*box_dict['nom_tab_width']:
-            inkex.errormsg(_('Error: Tab size too large'))
+        if  X < 3*box_dict['nom_length_tab_width']:
+            inkex.errormsg(_('Error: Length Tab size too large'))
+            error=1
+        if  Y < 3*box_dict['nom_width_tab_width']:
+            inkex.errormsg(_('Error: Width Tab size too large'))
+            error=1
+        if  Z < 3*box_dict['nom_depth_tab_width']:
+            inkex.errormsg(_('Error: Depth Tab size too large'))
             error=1
 
-        if box_dict['nom_tab_width']<thickness:
+        if min(box_dict['nom_length_tab_width'],box_dict['nom_width_tab_width'],box_dict['nom_depth_tab_width']) <thickness:
             inkex.errormsg(_('Error: Tab size too small'))
             error=1	  
         if thickness==0:
@@ -306,12 +336,8 @@ class TSlotBoxMaker(inkex.Effect):
             error=1	  
 
         if error: exit()
-        box_dict['length']= X
-        box_dict['width']=Y
-        box_dict['height']=Z
-        box_dict['thickness']= thickness
         if box_dict['debug'] :
-            inkex.errormsg('length = {0} width = {1} height = {2} '.format( X,Y,Z))          
+            inkex.errormsg('length = {0} width = {1} depth = {2} '.format( X,Y,Z))          
         from my_box import Box
 
         box = Box(box_dict)

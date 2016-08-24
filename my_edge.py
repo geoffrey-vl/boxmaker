@@ -46,6 +46,8 @@ class Edge:
             inkex.errormsg(_('self.dirV2[1] {0}'.format(  self.dirV2[1] )))
             '''
 
+        
+
         divs=int(self.length/self.nom_tab_width)  # divisions
         if not divs%2: divs-=1   # make divs odd
         divs=float(divs)
@@ -189,8 +191,24 @@ class Edge:
 
         #Knerf correction
         self.correction = my_dict['correction']
+
+        if panel_name in (['left_panel','front_panel','right_panel','back_panel']) and name in (['right_edge', 'left_edge']) :
+                self.nom_tab_width = my_dict['nom_depth_tab_width']
+        elif panel_name in (['top_panel','front_panel','bottom_panel','back_panel']) and name in (['top_edge','bottom_edge']) :
+                self.nom_tab_width = my_dict['nom_length_tab_width']
+        elif panel_name in (['left_panel','right_panel']) and name in (['top_edge','bottom_edge']) :
+                self.nom_tab_width = my_dict['nom_width_tab_width']
+        elif panel_name in (['top_panel','bottom_panel']) and name in (['right_edge','left_edge']):
+                self.nom_tab_width = my_dict['nom_width_tab_width']
+
+                
+
+            
         
-        self.nom_tab_width = my_dict['nom_tab_width']   
+
+
+        
+#        self.nom_tab_width = my_dict['nom_tab_width']   
 
         self.equalTabs = my_dict['equalTabs']
 

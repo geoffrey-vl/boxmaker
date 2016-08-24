@@ -33,7 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
   <param name='active-tab' type="notebook">
 
-    <page name="Global" _gui-text="Gloabal settings" >
+    <page name="Global" _gui-text="Global settings" >
 
       <param name="unit" _gui-text="Unit" type="optiongroup" appearance="minimal">
         <option value="mm">mm</option>
@@ -46,10 +46,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <_option value="0">Outside</_option>
       </param>
 
-      <param name="length" type="float" precision="3" min="0.0" max="10000.0" _gui-text="Length">30.0</param>
-      <param name="width" type="float" precision="3"  min="0.0" max="10000.0" _gui-text="Width">20.0</param>
-      <param name="depth" type="float" precision="3"  min="0.0" max="10000.0" _gui-text="Height">10.o</param>
-      <param name="tab_width" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Minimum/Prefered Tab Width">2.0</param> 
+      <param name="length" type="float" precision="3" min="0.0" max="10000.0" _gui-text="Length">100.0</param>
+      <param name="length_tab_width" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Minimum/Preferred Length Tab Width">10.0</param>  
+
+      <param name="width" type="float" precision="3"  min="0.0" max="10000.0" _gui-text="Width">80.0</param>
+      <param name="width_tab_width" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Minimum/Preferred Width Tab Width">10.0</param>
+
+      <param name="depth" type="float" precision="3"  min="0.0" max="10000.0" _gui-text="Depth">60.o</param>
+      <param name="depth_tab_width" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Minimum/Preferred Depth Tab Width">10.0</param> 
 
       <param name="equal" type="optiongroup" _gui-text="Tab Width">
         <_option value='Fixed'>Fixed</_option>
@@ -57,14 +61,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       </param>
 
       <param name="thickness" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Material Thickness">6.0</param>
-      <param name="kerf" type="float" precision="3"  min="0.0" max="10000.0" _gui-text="Kerf (cut width)">0.0</param>
+      <param name="kerf" type="float" precision="3"  min="0.0" max="10000.0" _gui-text="Kerf (cut width)">0.2</param>
       <param name="clearance" type="float" precision="3"  min="0.0" max="10000.0" _gui-text="Clearance">0.05</param>
 	
       <param name="style" _gui-text="Layout/Style" type="optiongroup" appearance="minimal">
         <option value="1">Diagramatic</option>
+        <!-- doing away with this choice for now. 
         <option value="2">3 piece</option>
         <option value="3">Inline(compact)</option>
-        <option value="4">Diag Alternate Tabs</option>
+        <option value="4">Diag Alternate Tabs</option> 
+        -->
       </param>
 
       <param name="spacing" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Space Between Parts">1.0</param> 

@@ -48,14 +48,14 @@ class Box:
         
         Width normally next longest edge as front to back.
 
-        Height as the shortest dimension from bottom to top.
+        Depth as the shortest dimension from bottom to top.
         The user may choose differently.
         '''
         x = length = my_dict['length']
-        y = width = my_dict['width']
-        z = height = my_dict['height']
+        z = width = my_dict['width']
+        y = depth = my_dict['depth']
         if my_dict['debug']:
-            inkex.errormsg('length = {0} width = {1} height = {2} '.format( x , y , z))     
+            inkex.errormsg('length = {0} width = {1} depth = {2} '.format( x , y , z))     
             inkex.errormsg('s = {0}'.format(s))
         '''
         Here we transform to 2 dimensional space to have this layout when drawn 
@@ -93,25 +93,22 @@ class Box:
 
         (a,b,c,d) = 0,0,0,0
 
-        self.front_panel = Panel( 'front_panel',  front_x,   front_y, (a,b,c,d),  length, width, my_dict)
+        self.front_panel = Panel( 'front_panel',  front_x,   front_y, (a,b,c,d),  length, depth, my_dict)
 
         #if my_dict['debug'] : return
         
-        self.back_panel = Panel(  'back_panel',   back_x,    back_y,  (a,b,c,d),  length, width, my_dict)
+        self.back_panel = Panel(  'back_panel',   back_x,    back_y,  (a,b,c,d),  length, depth, my_dict)
 
 
         (a,b,c,d) = 1,0,1,0
-        self.top_panel = Panel(   'top_panel',    top_x,     top_y,   (a,b,c,d),  length, height, my_dict)
-        self.bottom_panel = Panel('bottom_panel', bottom_x,  bottom_y,(a,b,c,d),  length, height, my_dict)
+        self.top_panel = Panel(   'top_panel',    top_x,     top_y,   (a,b,c,d),  length, width, my_dict)
+        self.bottom_panel = Panel('bottom_panel', bottom_x,  bottom_y,(a,b,c,d),  length, width, my_dict)
 
         (a,b,c,d) = 1,1,1,1
-        self.left_panel = Panel ( 'left_panel',   left_x,    left_y,  (a,b,c,d),  height, width, my_dict)
-        self.right_panel =Panel(  'right_panel',  right_x,   right_y, (a,b,c,d),  height, width, my_dict)
+        self.left_panel = Panel ( 'left_panel',   left_x,    left_y,  (a,b,c,d),  width, depth, my_dict)
+        self.right_panel =Panel(  'right_panel',  right_x,   right_y, (a,b,c,d),  width, depth, my_dict)
 
-
-#        inkex.errormsg('  right_x = {0},  right_y = {1},  width= {2},  height = {3} '.format(  right_x,
-#            right_y,  width,  height))
-       
+      
         if my_dict['front_panel_cutout'] : self.front_panel.do_cutout()
         if my_dict['back_panel_cutout'] : self.back_panel.do_cutout()
         if my_dict['right_panel_cutout'] : self.right_panel.do_cutout()
