@@ -65,13 +65,13 @@ class Panel:
 
         self.dict = my_dict
 
-        self.bottom_edge = Edge(self.name, 'bottom_edge' ,   x_coord ,     y_coord , ( d, a),(-b, a ), a ,1- 2*a , x, my_dict)
+        self.bottom_edge = Edge(self.name, 'bottom_edge' , x_coord ,    y_coord , ( d, a),(-b, a ), a, 1- 2*a , x, my_dict)
 
-        self.right_edge = Edge(self.name , 'right_edge' , x_coord + x,  y_coord ,    (-b, a),(-b,-c ),  b  , 2*b-1, y, my_dict)
+        self.right_edge = Edge(self.name , 'right_edge' , x_coord + x,  y_coord , (-b, a),(-b,-c ), b, 2*b-1, y, my_dict)
 
-        self.top_edge = Edge(self.name ,'top_edge',x_coord + x,  y_coord + y ,   (-d,-c),( d,-c ),  c , 2*c-1,  x, my_dict)
+        self.top_edge = Edge(self.name ,'top_edge',x_coord + x,  y_coord + y ,    (-d,-c),( d,-c ), c, 2*c-1,  x, my_dict)
 
-        self.left_edge = Edge(self.name , 'left_edge',  x_coord,      y_coord + y, ( d,-c),( d, a ), d , 1 -2*d,  y, my_dict)
+        self.left_edge = Edge(self.name , 'left_edge',  x_coord,      y_coord + y,( d,-c),( d, a ), d, 1 -2*d,  y, my_dict)
          
         appendScript( my_dict['parent'],(x_coord + x/2), (-1 *(y_coord +y/2
             )), self.name)

@@ -39,7 +39,7 @@ class Box:
         '''
         
 
-        s = my_dict['spacing']
+        space = my_dict['spacing']
 
 
         '''
@@ -51,22 +51,26 @@ class Box:
         Depth as the shortest dimension from bottom to top.
         The user may choose differently.
         '''
-        x = length = my_dict['length']
-        z = width = my_dict['width']
-        y = depth = my_dict['depth']
+        length = my_dict['length']
+        width = my_dict['width']
+        depth = my_dict['depth']
+
         if my_dict['debug']:
             inkex.errormsg('length = {0} width = {1} depth = {2} '.format( x , y , z))     
             inkex.errormsg('s = {0}'.format(s))
         '''
-        Here we transform to 2 dimensional space to have this layout when drawn 
+        Here figure out the layout of the sides of the box.  
+        We transform to 2 dimensional space to have this layout when drawn 
         calculating absolute coordinates starting point in 2d space for each panel
-                top
-                s
-        left s  front s  right s  back
-                s
-                bottom
-        
-        pass posX and posY as coordinates bottom left starting origin.
+
+                          Width
+                          space
+        space width space length space  width  space  length
+                          space
+                          width
+                          space 
+
+        passing abs_x and abs_y as coordinates bottom left starting origin.
 
         Left to right is: 
         s z s x s z s
@@ -78,17 +82,19 @@ class Box:
         z
         s
         '''
-        left_x = s
-        top_x = front_x = bottom_x = s + z + s
-        right_x = s + z + s + x + s
-        back_x = s + z + s + x + s + z + s
+        left_x = space
+        top_x = front_x = bottom_x = space + width + space
+        right_x = space + width + space + length + space
+        back_x = space + width + space + length + space + width + space
 
-        top_y = s + z + s + y +s
-        left_y = front_y = right_y = back_y = s + z + s
-        bottom_y = s
+        top_y = space + width + space + depth +space
+        left_y = front_y = right_y = back_y = space + width + space
+        bottom_y = space
 
         '''
         (a,b,c,d) hold information that gets translated to where edges start and end.
+        In order that edges mesh together, "zero" edges mesh with "one" edges.
+
         '''
 
         (a,b,c,d) = 0,0,0,0
@@ -100,11 +106,11 @@ class Box:
         self.back_panel = Panel(  'back_panel',   back_x,    back_y,  (a,b,c,d),  length, depth, my_dict)
 
 
-        (a,b,c,d) = 1,0,1,0
+        (a,b,c,d) = 1,1,1,1
         self.top_panel = Panel(   'top_panel',    top_x,     top_y,   (a,b,c,d),  length, width, my_dict)
         self.bottom_panel = Panel('bottom_panel', bottom_x,  bottom_y,(a,b,c,d),  length, width, my_dict)
 
-        (a,b,c,d) = 1,1,1,1
+        (a,b,c,d) = 0,1,0,1
         self.left_panel = Panel ( 'left_panel',   left_x,    left_y,  (a,b,c,d),  width, depth, my_dict)
         self.right_panel =Panel(  'right_panel',  right_x,   right_y, (a,b,c,d),  width, depth, my_dict)
 
