@@ -74,6 +74,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       </param>
 
       <param name="spacing" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Space Between Parts">1.0</param> 
+    </page>
+    <page name="Screw/Nut" _gui-text="Screw/Nut" >
       <param name="screw_length" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Screw Length">16</param> 
       <param name="screw_diameter" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Screw Diameter">3</param> 
       <param name="nut_height" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Nut Height">3</param> 
@@ -99,6 +101,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       <param name="front_panel_right_edge_screw_hole" type="boolean" _gui-text="right edge screw holes">true</param>
       <param name="front_panel_bottom_edge_nutslot" type="boolean" _gui-text="Bottom edge nut slots">true</param>
       <param name="front_panel_bottom_edge_screw_hole" type="boolean" _gui-text="Bottom edge screw holes">true</param>
+      <param name="divider_panel_bottom_edge_screw_hole" type="boolean" _gui-text="Divider screw holes">true</param>
+
 
     </page>
     <page name="Back" _gui-text="Back" >Back
@@ -122,6 +126,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       <param name="back_panel_right_edge_screw_hole" type="boolean" _gui-text="right edge screw holes">true</param>
       <param name="back_panel_bottom_edge_nutslot" type="boolean" _gui-text="Bottom edge nut slots">true</param>
       <param name="back_panel_bottom_edge_screw_hole" type="boolean" _gui-text="Bottom edge screw holes">true</param>
+
+      <param name="divider_panel_top_edge_screw_hole" type="boolean" _gui-text="divider screw holes">true</param>
 
    
     
@@ -149,7 +155,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       <param name="left_panel_right_edge_screw_hole" type="boolean" _gui-text="right edge screw holes">true</param>
       <param name="left_panel_bottom_edge_nutslot" type="boolean" _gui-text="Bottom edge nut slots">true</param>
       <param name="left_panel_bottom_edge_screw_hole" type="boolean" _gui-text="Bottom edge screw holes">true</param>
-    
+      <param name="divider_panel_left_edge_screw_hole" type="boolean" _gui-text="Divider screw holes">true</param>      
+  
+
     
     </page>
 
@@ -173,6 +181,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       <param name="right_panel_right_edge_screw_hole" type="boolean" _gui-text="right edge screw holes">true</param>
       <param name="right_panel_bottom_edge_nutslot" type="boolean" _gui-text="Bottom edge nut slots">true</param>
       <param name="right_panel_bottom_edge_screw_hole" type="boolean" _gui-text="Bottom edge screw holes">true</param>
+      <param name="divider_panel_right_edge_screw_hole" type="boolean" _gui-text="Divider screw holes">true</param>
+
 
     
     
@@ -200,6 +210,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       <param name="top_panel_bottom_edge_nutslot" type="boolean" _gui-text="Bottom edge nut slots">true</param>
       <param name="top_panel_bottom_edge_screw_hole" type="boolean" _gui-text="Bottom edge screw holes">true</param>
     
+    </page>
+
+    <page name="Divider" _gui-text="Divider" >
+
+      <param name="divider_panel_cutout" type="boolean" _gui-text="Draw cutout">true</param>
+      <param name="divider_panel_center_X" type="float" precision="2" min="-10000.0" max="10000.0"
+        _gui-text="Cutout offset from Center line X (side to side)">0.0</param> 
+      <param name="divider_panel_center_Y" type="float" precision="2" min="-10000.0" max="10000.0"
+        _gui-text="Cutout offset from Center Line Y (up and down)">0.0</param> 
+      <param name="divider_panel_dim_X" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout width">10.0</param> 
+      <param name="divider_panel_dim_Y" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout Height">10.0</param> 
+      <param name="divider_panel_corner_R" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout corner radius">10.0</param> 
+
+
+
+      <param name="divider_panel_top_edge_nutslot" type="boolean" _gui-text="top edge nut slots">true</param>
+      <param name="divider_panel_left_edge_nutslot" type="boolean" _gui-text="Left edge nut slots">true</param>
+      <param name="divider_panel_right_edge_nutslot" type="boolean" _gui-text="right edge nut slots">true</param>
+      <param name="divider_panel_bottom_edge_nutslot" type="boolean" _gui-text="Bottom edge nut slots">true</param>
     </page>
 
     <page name="Bottom" _gui-text="Bottom" >Bottom

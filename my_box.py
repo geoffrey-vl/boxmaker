@@ -83,10 +83,11 @@ class Box:
         s
         '''
         left_x = space
-        top_x = front_x = bottom_x = space + width + space
+        top_x = divider_x = front_x = bottom_x = space + width + space
         right_x = space + width + space + length + space
         back_x = space + width + space + length + space + width + space
 
+        divider_y = space + width + space + depth +space + width + space
         top_y = space + width + space + depth +space
         left_y = front_y = right_y = back_y = space + width + space
         bottom_y = space
@@ -99,16 +100,22 @@ class Box:
 
         (a,b,c,d) = 0,0,0,0
 
-        self.front_panel = Panel( 'front_panel',  front_x,   front_y, (a,b,c,d),  length, depth, my_dict)
+        self.front_panel = Panel( 'front_panel',  front_x,   front_y, (a,b,c,d),  length, depth, 
+                my_dict)
 
         #if my_dict['debug'] : return
         
-        self.back_panel = Panel(  'back_panel',   back_x,    back_y,  (a,b,c,d),  length, depth, my_dict)
+        self.back_panel = Panel(  'back_panel',   back_x,    back_y,  (a,b,c,d),  length, depth,
+                my_dict)
 
 
         (a,b,c,d) = 1,1,1,1
-        self.top_panel = Panel(   'top_panel',    top_x,     top_y,   (a,b,c,d),  length, width, my_dict)
-        self.bottom_panel = Panel('bottom_panel', bottom_x,  bottom_y,(a,b,c,d),  length, width, my_dict)
+        self.top_panel = Panel(   'top_panel',    top_x,     top_y,   (a,b,c,d),  length, width, 
+                my_dict)
+        self.divider_panel =Panel('divider_panel',divider_x, divider_y,(a,b,c,d), length, width,
+                my_dict)
+        self.bottom_panel = Panel('bottom_panel', bottom_x,  bottom_y,(a,b,c,d),  length, width, 
+                my_dict)
 
         (a,b,c,d) = 0,1,0,1
         self.left_panel = Panel ( 'left_panel',   left_x,    left_y,  (a,b,c,d),  width, depth, my_dict)
@@ -120,6 +127,7 @@ class Box:
         if my_dict['right_panel_cutout'] : self.right_panel.do_cutout()
         if my_dict['left_panel_cutout'] : self.left_panel.do_cutout()
         if my_dict['top_panel_cutout'] : self.top_panel.do_cutout()
+        if my_dict['divider_panel_cutout'] : self.divider_panel.do_cutout()
         if my_dict['bottom_panel_cutout'] : self.bottom_panel.do_cutout()
         
 

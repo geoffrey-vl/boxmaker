@@ -194,11 +194,11 @@ class Edge:
 
         if panel_name in (['left_panel','front_panel','right_panel','back_panel']) and name in (['right_edge', 'left_edge']) :
                 self.nom_tab_width = my_dict['nom_depth_tab_width']
-        elif panel_name in (['top_panel','front_panel','bottom_panel','back_panel']) and name in (['top_edge','bottom_edge']) :
+        elif panel_name in (['top_panel','front_panel','bottom_panel','back_panel','divider_panel']) and name in (['top_edge','bottom_edge']) :
                 self.nom_tab_width = my_dict['nom_length_tab_width']
         elif panel_name in (['left_panel','right_panel']) and name in (['top_edge','bottom_edge']) :
                 self.nom_tab_width = my_dict['nom_width_tab_width']
-        elif panel_name in (['top_panel','bottom_panel']) and name in (['right_edge','left_edge']):
+        elif panel_name in (['top_panel','bottom_panel','divider_panel']) and name in (['right_edge','left_edge']):
                 self.nom_tab_width = my_dict['nom_width_tab_width']
 
                 

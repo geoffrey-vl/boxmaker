@@ -37,7 +37,8 @@ class TSlotBoxMaker(inkex.Effect):
         # Call the base class constructor.
         inkex.Effect.__init__(self)
 
-        panels = ['front_panel','back_panel','left_panel','right_panel','top_panel','bottom_panel']
+        panels = ['front_panel','back_panel','left_panel','right_panel','top_panel','bottom_panel',
+                'divider_panel']
         edge = ['bottom_edge','right_edge','top_edge','left_edge']
         ns_h  = ['nutslot','screw_hole']
 
@@ -168,6 +169,16 @@ class TSlotBoxMaker(inkex.Effect):
         box_dict['top_panel_top_edge_screw_hole'] = self.options.top_panel_top_edge_screw_hole
         box_dict['top_panel_left_edge_nutslot'] = self.options.top_panel_left_edge_nutslot
         box_dict['top_panel_left_edge_screw_hole'] = self.options.top_panel_left_edge_screw_hole
+        
+        box_dict['divider_panel_bottom_edge_nutslot'] = self.options.divider_panel_bottom_edge_nutslot
+        box_dict['divider_panel_bottom_edge_screw_hole'] = self.options.divider_panel_bottom_edge_screw_hole
+        box_dict['divider_panel_right_edge_nutslot'] = self.options.divider_panel_right_edge_nutslot
+        box_dict['divider_panel_right_edge_screw_hole'] = self.options.divider_panel_right_edge_screw_hole
+        box_dict['divider_panel_top_edge_nutslot'] = self.options.divider_panel_top_edge_nutslot
+        box_dict['divider_panel_top_edge_screw_hole'] = self.options.divider_panel_top_edge_screw_hole
+        box_dict['divider_panel_left_edge_nutslot'] = self.options.divider_panel_left_edge_nutslot
+        box_dict['divider_panel_left_edge_screw_hole'] = self.options.divider_panel_left_edge_screw_hole
+
 
         box_dict['bottom_panel_bottom_edge_nutslot'] = self.options.bottom_panel_bottom_edge_nutslot
         box_dict['bottom_panel_bottom_edge_screw_hole'] = self.options.bottom_panel_bottom_edge_screw_hole
@@ -184,6 +195,8 @@ class TSlotBoxMaker(inkex.Effect):
         box_dict['right_panel_cutout'] = self.options.right_panel_cutout
         box_dict['back_panel_cutout'] = self.options.back_panel_cutout
         box_dict['top_panel_cutout'] = self.options.top_panel_cutout
+        box_dict['divider_panel_cutout'] = self.options.divider_panel_cutout
+
         box_dict['bottom_panel_cutout'] = self.options.bottom_panel_cutout
 
 
@@ -244,6 +257,12 @@ class TSlotBoxMaker(inkex.Effect):
         box_dict['top_panel_dim_X'] = self.unittouu( str(self.options.top_panel_dim_X)  + unit )
         box_dict['top_panel_dim_Y'] = self.unittouu( str(self.options.top_panel_dim_Y)  + unit )
         box_dict['top_panel_corner_R'] = self.unittouu( str(self.options.top_panel_corner_R)  + unit )
+        
+        box_dict['divider_panel_center_X'] = self.unittouu( str(self.options.divider_panel_center_X) + unit )
+        box_dict['divider_panel_center_Y'] = self.unittouu( str(self.options.divider_panel_center_Y)  + unit )
+        box_dict['divider_panel_dim_X'] = self.unittouu( str(self.options.divider_panel_dim_X)  + unit )
+        box_dict['divider_panel_dim_Y'] = self.unittouu( str(self.options.divider_panel_dim_Y)  + unit )
+        box_dict['divider_panel_corner_R'] = self.unittouu( str(self.options.divider_panel_corner_R)  + unit )
 
         box_dict['bottom_panel_center_X'] = self.unittouu( str(self.options.bottom_panel_center_X) + unit )
         box_dict['bottom_panel_center_Y'] = self.unittouu( str(self.options.bottom_panel_center_Y)  + unit )
