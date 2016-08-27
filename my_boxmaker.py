@@ -62,6 +62,11 @@ class TSlotBoxMaker(inkex.Effect):
             self.OptionParser.add_option(('--' + e) ,action='store', type="inkbool",
                         dest= e ,default=True,help='Draw cutout, True/False')
 
+        self.OptionParser.add_option(('--has_divider' ) ,action='store', type="inkbool",
+                        dest= 'has_divider' ,default=True,help='has_divider ? True/False')
+        self.OptionParser.add_option('--divider_distance_from_top',action='store',type='float',
+            dest='divider_distance_from_top',default=100,help='Divider distance from top panel')
+
 
         self.OptionParser.add_option('--unit',action='store',type='string',
             dest='unit',default='mm',help='Measure Units')
@@ -171,13 +176,13 @@ class TSlotBoxMaker(inkex.Effect):
         box_dict['top_panel_left_edge_screw_hole'] = self.options.top_panel_left_edge_screw_hole
         
         box_dict['divider_panel_bottom_edge_nutslot'] = self.options.divider_panel_bottom_edge_nutslot
-        box_dict['divider_panel_bottom_edge_screw_hole'] = self.options.divider_panel_bottom_edge_screw_hole
+        box_dict['divider_panel_front_panel_screw_hole'] = self.options.divider_panel_bottom_edge_screw_hole
         box_dict['divider_panel_right_edge_nutslot'] = self.options.divider_panel_right_edge_nutslot
-        box_dict['divider_panel_right_edge_screw_hole'] = self.options.divider_panel_right_edge_screw_hole
+        box_dict['divider_panel_right_panel_screw_hole'] = self.options.divider_panel_right_edge_screw_hole
         box_dict['divider_panel_top_edge_nutslot'] = self.options.divider_panel_top_edge_nutslot
-        box_dict['divider_panel_top_edge_screw_hole'] = self.options.divider_panel_top_edge_screw_hole
+        box_dict['divider_panel_back_panel_screw_hole'] = self.options.divider_panel_top_edge_screw_hole
         box_dict['divider_panel_left_edge_nutslot'] = self.options.divider_panel_left_edge_nutslot
-        box_dict['divider_panel_left_edge_screw_hole'] = self.options.divider_panel_left_edge_screw_hole
+        box_dict['divider_panel_left_panel_screw_hole'] = self.options.divider_panel_left_edge_screw_hole
 
 
         box_dict['bottom_panel_bottom_edge_nutslot'] = self.options.bottom_panel_bottom_edge_nutslot
@@ -195,6 +200,8 @@ class TSlotBoxMaker(inkex.Effect):
         box_dict['right_panel_cutout'] = self.options.right_panel_cutout
         box_dict['back_panel_cutout'] = self.options.back_panel_cutout
         box_dict['top_panel_cutout'] = self.options.top_panel_cutout
+
+        box_dict['has_divider'] = self.options.has_divider
         box_dict['divider_panel_cutout'] = self.options.divider_panel_cutout
 
         box_dict['bottom_panel_cutout'] = self.options.bottom_panel_cutout
@@ -257,7 +264,10 @@ class TSlotBoxMaker(inkex.Effect):
         box_dict['top_panel_dim_X'] = self.unittouu( str(self.options.top_panel_dim_X)  + unit )
         box_dict['top_panel_dim_Y'] = self.unittouu( str(self.options.top_panel_dim_Y)  + unit )
         box_dict['top_panel_corner_R'] = self.unittouu( str(self.options.top_panel_corner_R)  + unit )
-        
+
+
+        box_dict['divider_distance_from_top'] = self.unittouu(
+                str(self.options.divider_distance_from_top)  + unit )
         box_dict['divider_panel_center_X'] = self.unittouu( str(self.options.divider_panel_center_X) + unit )
         box_dict['divider_panel_center_Y'] = self.unittouu( str(self.options.divider_panel_center_Y)  + unit )
         box_dict['divider_panel_dim_X'] = self.unittouu( str(self.options.divider_panel_dim_X)  + unit )

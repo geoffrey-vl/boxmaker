@@ -214,6 +214,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <page name="Divider" _gui-text="Divider" >
 
+      <param name="has_divider" type="boolean" _gui-text="Has divider ?">true</param>
+      <param name="divider_distance_from_top" type="float" precision="2" min="0.0" max="10000.0">50.0</param>
+
       <param name="divider_panel_cutout" type="boolean" _gui-text="Draw cutout">true</param>
       <param name="divider_panel_center_X" type="float" precision="2" min="-10000.0" max="10000.0"
         _gui-text="Cutout offset from Center line X (side to side)">0.0</param> 

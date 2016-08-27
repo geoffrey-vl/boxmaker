@@ -201,13 +201,7 @@ class Edge:
         elif panel_name in (['top_panel','bottom_panel','divider_panel']) and name in (['right_edge','left_edge']):
                 self.nom_tab_width = my_dict['nom_width_tab_width']
 
-                
-
-            
-        
-
-
-        
+ 
 #        self.nom_tab_width = my_dict['nom_tab_width']   
 
         self.equalTabs = my_dict['equalTabs']
@@ -219,8 +213,10 @@ class Edge:
         
         self.panel_name = panel_name
         self.name = name
-
-        self.do_holes = my_dict[ self.panel_name + '_'+ self.name + '_screw_hole']
+        if not 'divider_panel' == panel_name :
+            self.do_holes = my_dict[ self.panel_name + '_'+ self.name + '_screw_hole']
+        else:  
+            self.do_holes = False
         self.do_slots = my_dict[ self.panel_name + '_'+ self.name +  '_nutslot']
 
         self.parent = my_dict['parent']

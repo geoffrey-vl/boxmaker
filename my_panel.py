@@ -60,10 +60,11 @@ class Panel:
         self.y_coord = y_coord 
         self.x = x
         self.y = y
+        self.a, self.b,self.c,self.d =(a,b,c,d)
 
 
 
-        self.dict = my_dict
+        self.my_dict = my_dict
 
         self.bottom_edge = Edge(self.name, 'bottom_edge' , x_coord ,    y_coord , ( d, a),(-b, a ), a, 1- 2*a , x, my_dict)
 
@@ -78,14 +79,18 @@ class Panel:
         
         
     def do_cutout(self):
-        ink_helper.cutoutArea( (self.x_coord + self.x/2 + self.dict[self.name + '_center_X'] ,
-                                self.y_coord + self.y/2 + self.dict[self.name + '_center_Y']) ,
-                               ((self.dict[self.name + '_dim_X'])/2 ,
-                                 (self.dict[self.name + '_dim_Y'])/2 ),
-                                self.dict['parent'],
-                                self.dict[self.name + '_corner_R'])
+        ink_helper.cutoutArea( (self.x_coord + self.x/2 + self.my_dict[self.name + '_center_X'] ,
+                                self.y_coord + self.y/2 + self.my_dict[self.name + '_center_Y']) ,
+                               ((self.my_dict[self.name + '_dim_X'])/2 ,
+                                 (self.my_dict[self.name + '_dim_Y'])/2 ),
+                                self.my_dict['parent'],
+                                self.my_dict[self.name + '_corner_R'])
 
-        
+    def do_divider_slots(self):
+        ink_helper.do_slots(self.name, 'divider_panel',self.x_coord ,  self.y_coord + self.y
+                -self.my_dict['divider_distance_from_top'] ,
+                (- self.d,- self.c),(  self.d,- self.c ),  self.c, 2* self.c-1,   self.x,  self.my_dict)
+
 
     
     
