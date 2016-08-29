@@ -21,14 +21,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from my_edge import Edge
+from my_slots  import Slot_row
 
 import inkex
 import ink_helper
 
-def appendScript(parent,x,y, text):
-    super = inkex.etree.SubElement(parent, inkex.addNS('text', 'svg'), 
-            {'style':'font-size:200%' , 'fill':'red' , 'x':'{0}'.format(x) , 'y':'{0}'.format(y)})
-    super.text = text
 
 class Panel:
     '''
@@ -73,8 +70,13 @@ class Panel:
         self.top_edge = Edge(self.name ,'top_edge',x_coord + x,  y_coord + y ,    (-d,-c),( d,-c ), c, 2*c-1,  x, my_dict)
 
         self.left_edge = Edge(self.name , 'left_edge',  x_coord,      y_coord + y,( d,-c),( d, a ), d, 1 -2*d,  y, my_dict)
-         
-        appendScript( my_dict['parent'],(x_coord + x/2), (-1 *(y_coord +y/2
+        
+        if name in  (['front_panel','right_panel','back_panel','left_panel']) and my_dict['has_divider']:
+            self.slot_row = Slot_row(self.name, 'slot_row', x_coord , y_coord + y -
+                my_dict['divider_distance_from_top']-2*my_dict['thickness'], (d,a),(-b,a ), a, 1-2*a,  x, my_dict)
+
+
+        ink_helper.appendScript( my_dict['parent'],(x_coord + x/2), (-1 *(y_coord +y/2
             )), self.name)
         
         
@@ -86,10 +88,6 @@ class Panel:
                                 self.my_dict['parent'],
                                 self.my_dict[self.name + '_corner_R'])
 
-    def do_divider_slots(self):
-        ink_helper.do_slots(self.name, 'divider_panel',self.x_coord ,  self.y_coord + self.y
-                -self.my_dict['divider_distance_from_top'] ,
-                (- self.d,- self.c),(  self.d,- self.c ),  self.c, 2* self.c-1,   self.x,  self.my_dict)
 
 
     

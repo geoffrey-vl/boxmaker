@@ -28,8 +28,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   <dependency type="executable" location="extensions">inkex.py</dependency> 
   <dependency type="executable" location="extensions">my_box.py</dependency>
   <dependency type="executable" location="extensions">my_edge.py</dependency>
+  <dependency type="executable" location="extensions">my_slots.py</dependency>
   <dependency type="executable" location="extensions">my_panel.py</dependency>
-
 
   <param name='active-tab' type="notebook">
 

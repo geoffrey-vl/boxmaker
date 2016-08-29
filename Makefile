@@ -8,7 +8,7 @@ install:
 	cp ./my_panel.py ~/.config/inkscape/extensions
 	cp ./my_edge.py ~/.config/inkscape/extensions
 	cp ./my_box.py ~/.config/inkscape/extensions
-
+	cp ./my_slots.py ~/.config/inkscape/extensions
 
 .PHONY: all install 
 

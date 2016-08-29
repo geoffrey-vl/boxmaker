@@ -131,11 +131,5 @@ class Box:
         if my_dict['top_panel_cutout'] : self.top_panel.do_cutout()
         if my_dict['divider_panel_cutout'] and my_dict['has_divider'] : self.divider_panel.do_cutout()
         if my_dict['bottom_panel_cutout'] : self.bottom_panel.do_cutout()
-        
-        if my_dict['has_divider'] :
-            self.front_panel.do_divider_slots()
-            self.back_panel.do_divider_slots()
-            self.right_panel.do_divider_slots()
-            self.left_panel.do_divider_slots()
             
 # vim: expandtab shiftwidth=4 tabstop=8 softtabstop=4 fileencoding=utf-8 textwidth=99

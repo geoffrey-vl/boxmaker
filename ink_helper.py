@@ -35,9 +35,8 @@ def drawS(XYstring, parent):         # Draw lines from a list
 def drawArc(r, (cx , cy ), start , end, parent):
 
 
-# jslee - shamelessly adapted from sample code on below Inkscape wiki page 2015-07-28
 # http://wiki.inkscape.org/wiki/index.php/Generating_objects_from_extensions
-#    log("putting circle at (%d,%d)" % (cx,cy))
+#   
     style = { 'stroke': '#000000', 'stroke-width': '1', 'fill': 'none' }
     ell_attribs = {'style':simplestyle.formatStyle(style),
         inkex.addNS('cx','sodipodi')        :str(cx),
@@ -52,8 +51,12 @@ def drawArc(r, (cx , cy ), start , end, parent):
     inkex.etree.SubElement(parent, inkex.addNS('path','svg'), ell_attribs )
 
 def drawCircle(r, (cx, cy), parent):
-    drawArc(r, (cx,cy), 0 , 2*math.pi)
+    drawArc(r, (cx,cy), 0 , 2*math.pi, parent)
 
+def appendScript(parent,x,y, text):
+    super = inkex.etree.SubElement(parent, inkex.addNS('text', 'svg'), 
+            {'style':'font-size:200%' , 'fill':'red' , 'x':'{0}'.format(x) , 'y':'{0}'.format(y)})
+    super.text = text
 
 def cutoutArea(  (centerLnX , centerLnY) , ( dX , dY) ,parent,  cornerR = 0.0 ):
     ''' draws a cutout opening given two centerlines, length and width, and corner radius)
@@ -80,97 +83,7 @@ def cutoutArea(  (centerLnX , centerLnY) , ( dX , dY) ,parent,  cornerR = 0.0 ):
     drawArc(cornerR, (x1 , -y2 ), math.pi , 3*math.pi/2, parent)
     drawArc(cornerR, (x2 , -y2 ), 3*math.pi/2 , 0, parent)
 
-def do_slots( panel_name, name, x , y, (sox,soy),(eox,eoy), isTab ,tab_direction, length ,
-    my_dict):
-    '''
-    draw a series of slots to receive tabs of divider panel.
-    '''
-    debug = my_dict['debug']
 
-    #Knerf correction
-    correction = my_dict['correction']
-
-    if panel_name in (['left_panel','right_panel']) :
-            nom_tab_width = my_dict['nom_width_tab_width']
-
-    elif panel_name in (['front_panel','back_panel']) :
-            nom_tab_width = my_dict['nom_length_tab_width']
-
-
-    equalTabs = my_dict['equalTabs']
-
-    screw_diameter = my_dict['screw_diameter']
-#    self.screw_length = my_dict['screw_length']
-#    self.nut_diameter = my_dict['nut_diameter']
-#    self.nut_height = my_dict['nut_height']
-    
-    
-    
-
-    do_holes = my_dict[ name + '_'+ panel_name + '_screw_hole']
-#    self.do_slots = my_dict[ self.panel_name + '_'+ self.name +  '_nutslot']
-
-    parent = my_dict['parent']
-    #x, y are absolute position coordinate  
-    
-    
-
-    #sox,soy,eox,eoy contain correction of where edge starts and ends
-    #self.sox, self.soy = (sox,soy)
-    #self.eox, self.eoy = (eox,eoy)
-
-    #isTab controls the mesh pattern of of the box where panels meet.
-    #That is to say isTab is True of and edge then its mating edge must have 
-    # have isTab False.
-    #self.isTab = isTab
-
-    #tab_direction is 1 or -1 according to how this edge
-    #is to mate with the adjoining edge. 
-    #self.tab_direction = tab_direction 
-    thickness = my_dict['thickness']
-    #tab_direction times thickness becomes the distance and direction 
-    #to draw the tab side.
-    tabVec1 = tab_direction * thickness 
-
-    #length in one direction of this edge
-    #self.length = length
-
-    #self.dirV2 holds the unit 2 dimention vector of  this edge
-    dirV2 = None
-    
-    #inV2 holds the direction in , that is to say direction from
-    #the edge toward the inside of the panel
-    inV2 = None 
-
-
-    #  elif self.name == 'bottom_edge': 
-    dirV2 = Vec2(1, 0)
-    inV2 = Vec2(0,-1)
-
-    drawCircle( my_dict['screw_diameter']/2, ( x , y) , my_dict['parent'])
-    '''
-
-
-    
-        
-    #(Vx,Vy)=(self.x+sox*self.thickness,self.y+soy*self.thickness)
-    from ink_helper import drawS
-    if self.debug :
-        S='M '+str(x)+','+str(-1*y)+' '
-
-        S+='L '+str(x + self.length * self.dirV2[0])+','+str( -1*(y +
-            self.length*self.dirV2[1]))+' '
-
-        drawS(S, self.parent)
-# def side((self.x,self.y),(sox,soy),(eox,self.eoy),self.tabVec1,length,(dirx,diry),isTab, my_dict):
-#       root startOffset endOffset self.tabVec1 length  direction  isTab
-
-    if True :
-        S = self.side()
-
-
-        drawS(S, self.parent)
-    '''
 
 def drill(center, diameter, n_pt):
     from math import sin, cos, pi
@@ -312,25 +225,6 @@ class Path:
         xs = [l.x for l in self.path]
         ys = [l.y for l in self.path]
         plot(xs, ys, lt)
-# jslee - shamelessly adapted from sample code on below Inkscape wiki page 2015-07-28
-# http://wiki.inkscape.org/wiki/index.php/Generating_objects_from_extensions
-def drawCircle(r, (cx, cy), parent):
-#    log("putting circle at (%d,%d)" % (cx,cy))
-    style = { 'stroke': '#000000', 'stroke-width': '1', 'fill': 'none' }
-    ell_attribs = {'style':simplestyle.formatStyle(style),
-        inkex.addNS('cx','sodipodi')        :str(cx),
-        inkex.addNS('cy','sodipodi')        :str(cy),
-        inkex.addNS('rx','sodipodi')        :str(r),
-        inkex.addNS('ry','sodipodi')        :str(r),
-        inkex.addNS('start','sodipodi')     :str(0),
-        inkex.addNS('end','sodipodi')       :str(2*math.pi),
-        inkex.addNS('open','sodipodi')      :'true', #all ellipse sectors we will draw are open
-        inkex.addNS('type','sodipodi')      :'arc',
-        'transform'                         :'' }
-    inkex.etree.SubElement(parent, inkex.addNS('path','svg'), ell_attribs )
-
-
-
 
 
       

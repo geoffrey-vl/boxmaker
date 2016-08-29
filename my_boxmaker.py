@@ -174,15 +174,16 @@ class TSlotBoxMaker(inkex.Effect):
         box_dict['top_panel_top_edge_screw_hole'] = self.options.top_panel_top_edge_screw_hole
         box_dict['top_panel_left_edge_nutslot'] = self.options.top_panel_left_edge_nutslot
         box_dict['top_panel_left_edge_screw_hole'] = self.options.top_panel_left_edge_screw_hole
-        
+        #not a bit of indirection of the screw holes    
         box_dict['divider_panel_bottom_edge_nutslot'] = self.options.divider_panel_bottom_edge_nutslot
-        box_dict['divider_panel_front_panel_screw_hole'] = self.options.divider_panel_bottom_edge_screw_hole
+        box_dict['front_panel_slot_row_screw_hole'] = self.options.divider_panel_bottom_edge_screw_hole
         box_dict['divider_panel_right_edge_nutslot'] = self.options.divider_panel_right_edge_nutslot
-        box_dict['divider_panel_right_panel_screw_hole'] = self.options.divider_panel_right_edge_screw_hole
+        box_dict['right_panel_slot_row_screw_hole'] = self.options.divider_panel_right_edge_screw_hole
         box_dict['divider_panel_top_edge_nutslot'] = self.options.divider_panel_top_edge_nutslot
-        box_dict['divider_panel_back_panel_screw_hole'] = self.options.divider_panel_top_edge_screw_hole
+        box_dict['back_panel_slot_row_screw_hole'] = self.options.divider_panel_top_edge_screw_hole
         box_dict['divider_panel_left_edge_nutslot'] = self.options.divider_panel_left_edge_nutslot
-        box_dict['divider_panel_left_panel_screw_hole'] = self.options.divider_panel_left_edge_screw_hole
+        box_dict['left_panel_slot_row_screw_hole'] = self.options.divider_panel_left_edge_screw_hole
+
 
 
         box_dict['bottom_panel_bottom_edge_nutslot'] = self.options.bottom_panel_bottom_edge_nutslot
