@@ -22,10 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 from ink_helper import *
+import inkex
 
-
-
-import inkex 
 class Edge:
     '''
     an edge class to hold all information of an edge
@@ -54,7 +52,7 @@ class Edge:
         tabs=(divs-1)/2          # tabs for side
         screw_r = self.screw_diameter / 2.
 
-        if self.equalTabs :
+        if 'Fixed' == self.equalTabs :
             gapWidth=tabWidth=self.length/divs
         else:
             tabWidth=self.nom_tab_width

@@ -37,7 +37,7 @@ class Slot_row:
         tabs=(divs-1)/2          # tabs for side
         screw_r = self.screw_diameter / 2.
 
-        if self.equalTabs :
+        if 'Fixed' == self.equalTabs :
             gapWidth=tabWidth=self.length/divs
         else:
             tabWidth=self.nom_tab_width
