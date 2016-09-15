@@ -17,53 +17,42 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->     
+-->
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
   <_name>Box Maker with Nut Slots</_name>
   <id>org.bloominglabs</id>
-
   <dependency type="executable" location="extensions">my_boxmaker.py</dependency>
   <dependency type="executable" location="extensions">ink_helper.py</dependency>
   <dependency type="executable" location="extensions">simpletransform.py</dependency>
-  <dependency type="executable" location="extensions">inkex.py</dependency> 
+  <dependency type="executable" location="extensions">inkex.py</dependency>
   <dependency type="executable" location="extensions">my_box.py</dependency>
   <dependency type="executable" location="extensions">my_edge.py</dependency>
   <dependency type="executable" location="extensions">my_slots.py</dependency>
   <dependency type="executable" location="extensions">my_panel.py</dependency>
-
-  <param name='active-tab' type="notebook">
-
-    <page name="Global" _gui-text="Global settings" >
-
+  <param name="active-tab" type="notebook">
+    <page name="Global" _gui-text="Global settings">
       <param name="unit" _gui-text="Unit" type="optiongroup" appearance="minimal">
         <option value="mm">mm</option>
         <option value="cm">cm</option>
         <option value="in">in</option>
       </param>
-
       <param name="inside" type="optiongroup" _gui-text="Box Dimensions">
         <_option value="1">Inside</_option>
         <_option value="0">Outside</_option>
       </param>
-
       <param name="length" type="float" precision="3" min="0.0" max="10000.0" _gui-text="Length">100.0</param>
-      <param name="length_tab_width" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Minimum/Preferred Length Tab Width">10.0</param>  
-
-      <param name="width" type="float" precision="3"  min="0.0" max="10000.0" _gui-text="Width">80.0</param>
+      <param name="length_tab_width" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Minimum/Preferred Length Tab Width">10.0</param>
+      <param name="width" type="float" precision="3" min="0.0" max="10000.0" _gui-text="Width">80.0</param>
       <param name="width_tab_width" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Minimum/Preferred Width Tab Width">10.0</param>
-
-      <param name="depth" type="float" precision="3"  min="0.0" max="10000.0" _gui-text="Depth">60.o</param>
-      <param name="depth_tab_width" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Minimum/Preferred Depth Tab Width">10.0</param> 
-
+      <param name="depth" type="float" precision="3" min="0.0" max="10000.0" _gui-text="Depth">60.o</param>
+      <param name="depth_tab_width" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Minimum/Preferred Depth Tab Width">10.0</param>
       <param name="equal" type="optiongroup" _gui-text="Tab Width">
-        <_option value='Fixed'>Fixed</_option>
-        <_option value='Proportional'>Proportional</_option>
+        <_option value="Fixed">Fixed</_option>
+        <_option value="Proportional">Proportional</_option>
       </param>
-
       <param name="thickness" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Material Thickness">6.0</param>
-      <param name="kerf" type="float" precision="3"  min="0.0" max="10000.0" _gui-text="Kerf (cut width)">0.2</param>
-      <param name="clearance" type="float" precision="3"  min="0.0" max="10000.0" _gui-text="Clearance">0.05</param>
-	
+      <param name="kerf" type="float" precision="3" min="0.0" max="10000.0" _gui-text="Kerf (cut width)">0.23</param>
+      <param name="clearance" type="float" precision="3" min="0.0" max="10000.0" _gui-text="Clearance">0.020</param>
       <param name="style" _gui-text="Layout/Style" type="optiongroup" appearance="minimal">
         <option value="1">Diagramatic</option>
         <!-- doing away with this choice for now. 
@@ -72,46 +61,38 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <option value="4">Diag Alternate Tabs</option> 
         -->
       </param>
-
-      <param name="spacing" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Space Between Parts">1.0</param> 
+      <param name="spacing" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Space Between Parts">1.0</param>
     </page>
-    <page name="Screw/Nut" _gui-text="Screw/Nut" >
-      <param name="screw_length" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Screw Length">16</param> 
-      <param name="screw_diameter" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Screw Diameter">3</param> 
-      <param name="nut_height" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Nut Height">3</param> 
-      <param name="nut_diameter" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Nut Diameter">6</param> 
+    <page name="Screw/Nut" _gui-text="Screw/Nut">
+      <param name="screw_length" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Screw Length">16</param>
+      <param name="screw_diameter" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Screw Diameter">3</param>
+      <param name="nut_height" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Nut Height">2.26</param>
+      <param name="nut_diameter" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Nut Diameter">5.44</param>
     </page>
-    <page name="Front" _gui-text="Front" >
-
-      <param name="front_panel_cutout" type="boolean" _gui-text="Draw cutout">true</param>
-      <param name="front_panel_center_X" type="float" precision="2" min="-10000.0" max="10000.0"
-        _gui-text="Cutout offset from Center line X (side to side)">0.0</param> 
-      <param name="front_panel_center_Y" type="float" precision="2" min="-10000.0" max="10000.0"
-        _gui-text="Cutout offset from Center Line Y (up and down)">0.0</param> 
-      <param name="front_panel_dim_X" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout width">10.0</param> 
-      <param name="front_panel_dim_Y" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout Height">10.0</param> 
-      <param name="front_panel_corner_R" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout corner radius">10.0</param> 
-
-
-      <param name="front_panel_top_edge_nutslot" type="boolean" _gui-text="top edge nut slots">true</param>
-      <param name="front_panel_top_edge_screw_hole" type="boolean" _gui-text="top edge screw holes">true</param>
-      <param name="front_panel_left_edge_nutslot" type="boolean" _gui-text="Left edge nut slots">true</param>
-      <param name="front_panel_left_edge_screw_hole" type="boolean" _gui-text="Left edge screw holes">true</param>
-      <param name="front_panel_right_edge_nutslot" type="boolean" _gui-text="right edge nut slots">true</param>
-      <param name="front_panel_right_edge_screw_hole" type="boolean" _gui-text="right edge screw holes">true</param>
-      <param name="front_panel_bottom_edge_nutslot" type="boolean" _gui-text="Bottom edge nut slots">true</param>
-      <param name="front_panel_bottom_edge_screw_hole" type="boolean" _gui-text="Bottom edge screw holes">true</param>
-      <param name="divider_panel_bottom_edge_screw_hole" type="boolean" _gui-text="Divider screw holes">true</param>
-
-
-    </page>
-    <page name="Back" _gui-text="Back" >Back
+    <page name="panels">
+      <param name="panel-options" type="notebook">
+        <page name="Front" _gui-text="Front">
+          <param name="front_panel_cutout" type="boolean" _gui-text="Draw cutout">true</param>
+          <param name="front_panel_center_X" type="float" precision="2" min="-10000.0" max="10000.0" _gui-text="Cutout offset from Center line X (side to side)">0.0</param>
+          <param name="front_panel_center_Y" type="float" precision="2" min="-10000.0" max="10000.0" _gui-text="Cutout offset from Center Line Y (up and down)">0.0</param>
+          <param name="front_panel_dim_X" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout width">10.0</param>
+          <param name="front_panel_dim_Y" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout Height">10.0</param>
+          <param name="front_panel_corner_R" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout corner radius">10.0</param>
+          <param name="front_panel_top_edge_nutslot" type="boolean" _gui-text="top edge nut slots">true</param>
+          <param name="front_panel_top_edge_screw_hole" type="boolean" _gui-text="top edge screw holes">true</param>
+          <param name="front_panel_left_edge_nutslot" type="boolean" _gui-text="Left edge nut slots">true</param>
+          <param name="front_panel_left_edge_screw_hole" type="boolean" _gui-text="Left edge screw holes">true</param>
+          <param name="front_panel_right_edge_nutslot" type="boolean" _gui-text="right edge nut slots">true</param>
+          <param name="front_panel_right_edge_screw_hole" type="boolean" _gui-text="right edge screw holes">true</param>
+          <param name="front_panel_bottom_edge_nutslot" type="boolean" _gui-text="Bottom edge nut slots">true</param>
+          <param name="front_panel_bottom_edge_screw_hole" type="boolean" _gui-text="Bottom edge screw holes">true</param>
+          <param name="divider_panel_bottom_edge_screw_hole" type="boolean" _gui-text="Divider screw holes">true</param>
+        </page>
+        <page name="Back" _gui-text="Back">Back
 
       <param name="back_panel_cutout" type="boolean" _gui-text="Draw cutout">true</param>
-      <param name="back_panel_center_X" type="float" precision="2" min="-10000.0" max="10000.0"
-        _gui-text="Cutout offset from Center line X (side to side)">0.0</param> 
-      <param name="back_panel_center_Y" type="float" precision="2" min="-10000.0" max="10000.0"
-        _gui-text="Cutout offset from Center Line Y (up and down)">0.0</param> 
+      <param name="back_panel_center_X" type="float" precision="2" min="-10000.0" max="10000.0" _gui-text="Cutout offset from Center line X (side to side)">0.0</param> 
+      <param name="back_panel_center_Y" type="float" precision="2" min="-10000.0" max="10000.0" _gui-text="Cutout offset from Center Line Y (up and down)">0.0</param> 
       <param name="back_panel_dim_X" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout width">10.0</param> 
       <param name="back_panel_dim_Y" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout Height">10.0</param> 
       <param name="back_panel_corner_R" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout corner radius">10.0</param> 
@@ -133,13 +114,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     
     
     </page>
-    <page name="Left side" _gui-text="Left Side" >Left side
+        <page name="Left side" _gui-text="Left Side">Left side
 
       <param name="left_panel_cutout" type="boolean" _gui-text="Draw cutout">true</param>
-      <param name="left_panel_center_X" type="float" precision="2" min="-10000.0" max="10000.0"
-        _gui-text="Cutout offset from Center line X (side to side)">0.0</param> 
-      <param name="left_panel_center_Y" type="float" precision="2" min="-10000.0" max="10000.0"
-        _gui-text="Cutout offset from Center Line Y (up and down)">0.0</param> 
+      <param name="left_panel_center_X" type="float" precision="2" min="-10000.0" max="10000.0" _gui-text="Cutout offset from Center line X (side to side)">0.0</param> 
+      <param name="left_panel_center_Y" type="float" precision="2" min="-10000.0" max="10000.0" _gui-text="Cutout offset from Center Line Y (up and down)">0.0</param> 
       <param name="left_panel_dim_X" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout width">10.0</param> 
       <param name="left_panel_dim_Y" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout Height">10.0</param> 
       <param name="left_panel_corner_R" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout corner radius">10.0</param> 
@@ -160,14 +139,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     
     </page>
-
-    <page name="Right Side" _gui-text="Right Side" >Right side
+        <page name="Right Side" _gui-text="Right Side">Right side
 
       <param name="right_panel_cutout" type="boolean" _gui-text="Draw cutout">true</param>
-      <param name="right_panel_center_X" type="float" precision="2" min="-10000.0" max="10000.0"
-        _gui-text="Cutout offset from Center line X (side to side)">0.0</param> 
-      <param name="right_panel_center_Y" type="float" precision="2" min="-10000.0" max="10000.0"
-        _gui-text="Cutout offset from Center Line Y (up and down)">0.0</param> 
+      <param name="right_panel_center_X" type="float" precision="2" min="-10000.0" max="10000.0" _gui-text="Cutout offset from Center line X (side to side)">0.0</param> 
+      <param name="right_panel_center_Y" type="float" precision="2" min="-10000.0" max="10000.0" _gui-text="Cutout offset from Center Line Y (up and down)">0.0</param> 
       <param name="right_panel_dim_X" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout width">10.0</param> 
       <param name="right_panel_dim_Y" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout Height">10.0</param> 
       <param name="right_panel_corner_R" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout corner radius">10.0</param> 
@@ -187,14 +163,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     
     
     </page>
-
-    <page name="Top" _gui-text="Top" >Top
+        <!-- :%!xmllint -format - 
+         -->
+        <page name="Top" _gui-text="Top">Top
 
       <param name="top_panel_cutout" type="boolean" _gui-text="Draw cutout">true</param>
-      <param name="top_panel_center_X" type="float" precision="2" min="-10000.0" max="10000.0"
-        _gui-text="Cutout offset from Center line X (side to side)">0.0</param> 
-      <param name="top_panel_center_Y" type="float" precision="2" min="-10000.0" max="10000.0"
-        _gui-text="Cutout offset from Center Line Y (up and down)">0.0</param> 
+      <param name="top_panel_center_X" type="float" precision="2" min="-10000.0" max="10000.0" _gui-text="Cutout offset from Center line X (side to side)">0.0</param> 
+      <param name="top_panel_center_Y" type="float" precision="2" min="-10000.0" max="10000.0" _gui-text="Cutout offset from Center Line Y (up and down)">0.0</param> 
       <param name="top_panel_dim_X" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout width">10.0</param> 
       <param name="top_panel_dim_Y" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout Height">10.0</param> 
       <param name="top_panel_corner_R" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout corner radius">10.0</param> 
@@ -211,36 +186,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       <param name="top_panel_bottom_edge_screw_hole" type="boolean" _gui-text="Bottom edge screw holes">true</param>
     
     </page>
-
-    <page name="Divider" _gui-text="Divider" >
-
-      <param name="has_divider" type="boolean" _gui-text="Has divider ?">true</param>
-      <param name="divider_distance_from_top" type="float" precision="2" min="0.0" max="10000.0">50.0</param>
-
-      <param name="divider_panel_cutout" type="boolean" _gui-text="Draw cutout">true</param>
-      <param name="divider_panel_center_X" type="float" precision="2" min="-10000.0" max="10000.0"
-        _gui-text="Cutout offset from Center line X (side to side)">0.0</param> 
-      <param name="divider_panel_center_Y" type="float" precision="2" min="-10000.0" max="10000.0"
-        _gui-text="Cutout offset from Center Line Y (up and down)">0.0</param> 
-      <param name="divider_panel_dim_X" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout width">10.0</param> 
-      <param name="divider_panel_dim_Y" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout Height">10.0</param> 
-      <param name="divider_panel_corner_R" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout corner radius">10.0</param> 
-
-
-
-      <param name="divider_panel_top_edge_nutslot" type="boolean" _gui-text="top edge nut slots">true</param>
-      <param name="divider_panel_left_edge_nutslot" type="boolean" _gui-text="Left edge nut slots">true</param>
-      <param name="divider_panel_right_edge_nutslot" type="boolean" _gui-text="right edge nut slots">true</param>
-      <param name="divider_panel_bottom_edge_nutslot" type="boolean" _gui-text="Bottom edge nut slots">true</param>
-    </page>
-
-    <page name="Bottom" _gui-text="Bottom" >Bottom
+        <page name="Divider" _gui-text="Divider">
+          <param name="has_divider" type="boolean" _gui-text="Has divider ?">true</param>
+          <param name="divider_distance_from_top" type="float" precision="2" min="0.0" max="10000.0">50.0</param>
+          <param name="divider_panel_cutout" type="boolean" _gui-text="Draw cutout">true</param>
+          <param name="divider_panel_center_X" type="float" precision="2" min="-10000.0" max="10000.0" _gui-text="Cutout offset from Center line X (side to side)">0.0</param>
+          <param name="divider_panel_center_Y" type="float" precision="2" min="-10000.0" max="10000.0" _gui-text="Cutout offset from Center Line Y (up and down)">0.0</param>
+          <param name="divider_panel_dim_X" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout width">10.0</param>
+          <param name="divider_panel_dim_Y" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout Height">10.0</param>
+          <param name="divider_panel_corner_R" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout corner radius">10.0</param>
+          <param name="divider_panel_top_edge_nutslot" type="boolean" _gui-text="top edge nut slots">true</param>
+          <param name="divider_panel_left_edge_nutslot" type="boolean" _gui-text="Left edge nut slots">true</param>
+          <param name="divider_panel_right_edge_nutslot" type="boolean" _gui-text="right edge nut slots">true</param>
+          <param name="divider_panel_bottom_edge_nutslot" type="boolean" _gui-text="Bottom edge nut slots">true</param>
+        </page>
+        <page name="Bottom" _gui-text="Bottom">Bottom
 
       <param name="bottom_panel_cutout" type="boolean" _gui-text="Draw cutout">true</param>
-      <param name="bottom_panel_center_X" type="float" precision="2" min="-10000.0" max="10000.0"
-        _gui-text="Cutout offset from Center line X (side to side)">0.0</param> 
-      <param name="bottom_panel_center_Y" type="float" precision="2" min="-10000.0" max="10000.0"
-        _gui-text="Cutout offset from Center Line Y (up and down)">0.0</param> 
+      <param name="bottom_panel_center_X" type="float" precision="2" min="-10000.0" max="10000.0" _gui-text="Cutout offset from Center line X (side to side)">0.0</param> 
+      <param name="bottom_panel_center_Y" type="float" precision="2" min="-10000.0" max="10000.0" _gui-text="Cutout offset from Center Line Y (up and down)">0.0</param> 
       <param name="bottom_panel_dim_X" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout width">10.0</param> 
       <param name="bottom_panel_dim_Y" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout Height">10.0</param> 
       <param name="bottom_panel_corner_R" type="float" precision="2" min="0.0" max="10000.0" _gui-text="Cutout corner radius">10.0</param> 
@@ -258,18 +222,44 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     
     
     </page>
-
-    <page name="Debug" _gui-text="Debug" >Debug mode
-    
-      <param name="debug" type="boolean" _gui-text="Debug mode On/Off">False</param>
+      </param>
     </page>
+    <page name="private" gui-text="private" gui-hidden="false">Blank
 
 
-  </param>      <!--name="tab"--> 
+      
+      <param name="inactive-tab" type="notebook" gui-hidden="false">
+      <!-- change gui-hidden to true to hide options -->
+
+        <page name="Debug" _gui-text="Debug">Debug mode
+    
+            <param name="debug" type="boolean" _gui-text="Debug mode On/Off">False</param>
+          </page>
+
+
+          <page name="bearing" _gui-text="Bearing and stepper motor options " gui-hidden="false">3D Printer mode params
+    
+            <param name="add_bearings" type="boolean" _gui-text="Turn special 3D Printer params mode On/Off">False</param>
+      
+            <param name="bearing_diameter" type="float" precision="2" min="0.0" max="40.0" _gui-text="Bearing Diameter">22.0</param> 
+            <param name="stepper_motor" _gui-text="stepper motor type" type="optiongroup" appearance="minimal"><option value="nema-17">nema-17</option></param>
+
+
+            <param name="drive_belt" type="float" min="50.0" max="1000.0" _gui-text="length of drive belt">200.0</param> 
+            <param name="axis_offset" type="float" precision="2" min="0.0" max="100.0" _gui-text="vertical offset of the bearing shafts" gui-hidden="false">18.0</param> 
+
+          </page>
+        </param>
+
+
+
+    </page>
+  </param>
+  <!--name="tab"-->
   <effect>
     <object-type>all</object-type>
     <effects-menu>
-      <submenu _name="Laser Tools" />
+      <submenu _name="Laser Tools"/>
     </effects-menu>
   </effect>
   <script>

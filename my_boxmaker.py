@@ -97,21 +97,36 @@ class TSlotBoxMaker(inkex.Effect):
         self.OptionParser.add_option('--thickness',action='store',type='float',
             dest='thickness',default=10,help='Thickness of Material')
         self.OptionParser.add_option('--kerf',action='store',type='float',
-            dest='kerf',default=0.5,help='Kerf (width) of cut')
+            dest='kerf',default=0.23,help='Kerf (width) of cut')
         self.OptionParser.add_option('--clearance',action='store',type='float',
-            dest='clearance',default=0.01,help='Clearance of joints')
+            dest='clearance',default=0.02,help='Clearance of joints')
         self.OptionParser.add_option('--style',action='store',type='int',
             dest='style',default=25,help='Layout/Style')
         self.OptionParser.add_option('--spacing',action='store',type='float',
             dest='spacing',default=25,help='Part Spacing')
         self.OptionParser.add_option('--screw_length',action='store',type='float',
-            dest='screw_length',default=25,help='Screw Length')
+            dest='screw_length',default=16,help='Screw Length')
         self.OptionParser.add_option('--screw_diameter',action='store',type='float',
-            dest='screw_diameter',default=25,help='Screw Diameter')  
+            dest='screw_diameter',default=3,help='Screw Diameter')  
         self.OptionParser.add_option('--nut_height',action='store',type='float',
-            dest='nut_height',default=25,help='Nut Height')
+            dest='nut_height',default=2.26,help='Nut Height')
         self.OptionParser.add_option('--nut_diameter',action='store',type='float',
-            dest='nut_diameter',default=25,help='Nut Diameter')
+            dest='nut_diameter',default=5.44,help='Nut Diameter')
+
+        self.OptionParser.add_option('--add_bearings',action='store',type='inkbool',
+            dest='add_bearings',default='False',help='Add bearing holes and stepper motor holes')  
+        self.OptionParser.add_option('--bearing_diameter',action='store',type='float',
+            dest='bearing_diameter',default=22,help='Bearing Diameter')
+        self.OptionParser.add_option('--stepper_motor',action='store',type='string',
+            dest='stepper_motor',default='nema-17',help='Stepper Motor Type')
+        self.OptionParser.add_option('--drive_belt' , action='store', type= 'float',
+            dest='drive_belt', default = 200 , help='Length of the stepper motor drive belt')
+        self.OptionParser.add_option('--axis_offset' , action='store', type= 'float',
+            dest='axis_offset', default = 18 , help='Vertical offset of the bearing axis')
+
+
+
+
 
 
         self.OptionParser.add_option('--debug',action='store',type='inkbool',
@@ -121,6 +136,14 @@ class TSlotBoxMaker(inkex.Effect):
 
         # here so we can have tabs - but we do not use it directly - else error
         self.OptionParser.add_option("", "--active-tab",
+                                        action="store", type="string",
+                                        dest="active_tab", default='title', # use a legitmate default
+                                        help="Active tab.")
+        self.OptionParser.add_option("", "--panel-options",
+                                        action="store", type="string",
+                                        dest="active_tab", default='title', # use a legitmate default
+                                        help="Active tab.")
+        self.OptionParser.add_option("", "--inactive-tab",
                                         action="store", type="string",
                                         dest="active_tab", default='title', # use a legitmate default
                                         help="Active tab.")
@@ -208,19 +231,12 @@ class TSlotBoxMaker(inkex.Effect):
         box_dict['bottom_panel_cutout'] = self.options.bottom_panel_cutout
 
 
-
-
-
-
-
         box_dict['debug'] = self.options.debug
     
 
 
-
         # Get access to main SVG document element and get its dimensions.
         svg = self.document.getroot()
-    
         # Get the attibutes:
         box_dict['widthDoc']  = self.unittouu(svg.get('width'))
         box_dict['heightDoc'] = self.unittouu(svg.get('height'))
@@ -236,7 +252,7 @@ class TSlotBoxMaker(inkex.Effect):
         # Get script's option values.
         unit=self.options.unit
 
-        box_dict['front_panel_center_X'] = self.unittouu( str(self.options.front_panel_center_X) + unit )
+        box_dict['front_panel_center_X'] = self.unittouu( str(self.options.front_panel_center_X) + unit)
         box_dict['front_panel_center_Y'] = self.unittouu( str(self.options.front_panel_center_Y)  + unit )
         box_dict['front_panel_dim_X'] = self.unittouu( str(self.options.front_panel_dim_X)  + unit )
         box_dict['front_panel_dim_Y'] = self.unittouu( str(self.options.front_panel_dim_Y)  + unit )
@@ -296,6 +312,20 @@ class TSlotBoxMaker(inkex.Effect):
         box_dict['nom_width_tab_width']=self.unittouu( str(self.options.width_tab_width) + unit )
         box_dict['nom_depth_tab_width']=self.unittouu( str(self.options.depth_tab_width) + unit )
         
+
+        box_dict['add_bearings'] = self.options.add_bearings
+        box_dict['bearing_diameter'] = self.unittouu( str(self.options.bearing_diameter ) + unit )
+        box_dict['stepper_motor'] = self.unittouu( str(self.options.stepper_motor) + unit )
+        box_dict['drive_belt'] = self.unittouu( str(self.options.drive_belt) + unit )
+        box_dict['axis_offset'] = self.unittouu( str(self.options.axis_offset) + unit )       
+        box_dict['slot_length'] = self.unittouu( str(2.00) + unit)
+        box_dict['bearing_inset'] = self.unittouu( str(30) + unit)
+        box_dict['bearing_drop'] = self.unittouu( str(20) + unit)
+        box_dict['screw_offset'] = self.unittouu( str(31.00/2.00) + unit)
+        box_dict['gear_factor'] = self.unittouu( str(36.00) + unit)
+
+
+
 
 
 

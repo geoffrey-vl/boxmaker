@@ -83,6 +83,25 @@ def cutoutArea(  (centerLnX , centerLnY) , ( dX , dY) ,parent,  cornerR = 0.0 ):
     drawArc(cornerR, (x1 , -y2 ), math.pi , 3*math.pi/2, parent)
     drawArc(cornerR, (x2 , -y2 ), 3*math.pi/2 , 0, parent)
 
+def draw_nema((x,y), my_dict):
+    bearing_diameter = my_dict['bearing_diameter']
+    slot_length = my_dict['slot_length']
+    parent = my_dict['parent']
+    screw_offset = my_dict['screw_offset']
+    screw_r = my_dict['screw_diameter']/2
+    cutoutArea((x,y), (bearing_diameter/2 , slot_length + bearing_diameter/2) , parent , bearing_diameter/2)
+    cutoutArea((x+screw_offset ,y+screw_offset ), (screw_r  , slot_length + screw_r ) , parent ,screw_r )
+    cutoutArea((x-screw_offset ,y+screw_offset ), (screw_r  , slot_length + screw_r ) , parent
+            ,screw_r )   
+    cutoutArea((x+screw_offset ,y-screw_offset ), (screw_r  , slot_length +
+                screw_r ) , parent ,screw_r )    
+    cutoutArea((x-screw_offset ,y-screw_offset ), (screw_r  , slot_length + screw_r ) , parent ,screw_r )    
+
+def draw_bearing((x,y), my_dict):
+        drawCircle(my_dict['bearing_diameter']/2,(x,-y),my_dict['parent'])
+        drawCircle(my_dict['screw_diameter']/2,(x - my_dict['screw_offset'],-y),my_dict['parent'])
+        drawCircle(my_dict['screw_diameter']/2,(x + my_dict['screw_offset'],-y),my_dict['parent'])
+
 
 
 def drill(center, diameter, n_pt):

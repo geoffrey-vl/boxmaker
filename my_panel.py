@@ -87,7 +87,26 @@ class Panel:
                                  (self.my_dict[self.name + '_dim_Y'])/2 ),
                                 self.my_dict['parent'],
                                 self.my_dict[self.name + '_corner_R'])
+    def do_bearing(self):
+        x_cl = self.x_coord + self.my_dict['bearing_inset']
+        x_cl_r = self.x_coord+self.x - self.my_dict['bearing_inset'] 
+        y_cl =  self.y_coord +self.y -self.my_dict['bearing_drop']
+        if self.name in (['left_panel','right_panel']):
+            y_cl = y_cl - self.my_dict['axis_offset'] 
 
+        ink_helper.draw_bearing((x_cl_r , y_cl), self.my_dict )
+        ink_helper.draw_bearing((x_cl, y_cl), self.my_dict )
+
+
+    def do_nema(self):
+
+        x_cl = self.x_coord + self.my_dict['bearing_inset'] 
+        y_cl =  self.y_coord +self.y -self.my_dict['bearing_drop']-(self.my_dict['drive_belt'] -
+                self.my_dict['gear_factor'])/2.00
+        if 'left_panel' == self.name : 
+            y_cl = y_cl - self.my_dict['axis_offset'] 
+
+        ink_helper.draw_nema( ( x_cl , y_cl ), self.my_dict) 
 
 
     

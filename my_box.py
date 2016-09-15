@@ -56,8 +56,8 @@ class Box:
         depth = my_dict['depth']
 
         if my_dict['debug']:
-            inkex.errormsg('length = {0} width = {1} depth = {2} '.format( x , y , z))     
-            inkex.errormsg('s = {0}'.format(s))
+            inkex.errormsg('length = {0} width = {1} depth = {2} '.format( length, width,depth ))     
+            inkex.errormsg('s = {0}'.format(space ))
         '''
         Here figure out the layout of the sides of the box.  
         We transform to 2 dimensional space to have this layout when drawn 
@@ -131,5 +131,11 @@ class Box:
         if my_dict['top_panel_cutout'] : self.top_panel.do_cutout()
         if my_dict['divider_panel_cutout'] and my_dict['has_divider'] : self.divider_panel.do_cutout()
         if my_dict['bottom_panel_cutout'] : self.bottom_panel.do_cutout()
+        if my_dict['add_bearings'] : self.back_panel.do_nema()
+        if my_dict['add_bearings'] : self.left_panel.do_nema()
+        if my_dict['add_bearings'] : self.front_panel.do_bearing()
+        if my_dict['add_bearings'] : self.back_panel.do_bearing()
+        if my_dict['add_bearings'] : self.right_panel.do_bearing()
+        if my_dict['add_bearings'] : self.left_panel.do_bearing()
             
 # vim: expandtab shiftwidth=4 tabstop=8 softtabstop=4 fileencoding=utf-8 textwidth=99
