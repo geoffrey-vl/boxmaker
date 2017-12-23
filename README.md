@@ -29,4 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 !(sample box)[https://github.com/applemuncy/boxmaker/blob/master/sample-box.svg]
 
-
+Installing (Linux)
+---
+Download, unzip, open a terminal and enter:
+make install
